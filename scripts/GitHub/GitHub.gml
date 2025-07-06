@@ -35,6 +35,41 @@ function GitHub(_authToken = undefined) constructor
 		// Return Request
 		return githubRequest;
 	}
+	
+	/// @func getReleases(owner, repo, [perPage], [page])
+	/// @desc Get a list of releases from a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	static getReleases = function(_owner, _repo, _perPage = undefined, _page = undefined)
+	{
+		// Create Header
+		var header = new HTTPHeader();
+		
+		// Build Header
+		header.add("Accept", "application/vnd.github+json");
+		header.add("X-GitHub-Api-Version", __GITHUB_API_VERSION);
+		header.add("User-Agent", __USER_AGENT);
+		if (authToken != undefined) header.add("Authorization", "Bearer " + authToken);
+		
+		// Create Optional Query Params
+		var queryParams = "?";
+		if (_perPage != undefined) queryParams += $"{clamp(round(_perPage), 30, 100)}&"; 
+		if (_page != undefined) queryParams += $"{clamp(round(_page), 1, 100)}&"; 
+		
+		// Create Request
+		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases{queryParams}", "GET", header.headerMap, "");
+		
+		// Create GitHub Request
+		var githubRequest = new GitHubRequest(request.requestID);
+		
+		// Destroy Header Builder
+		header.destroy();
+		
+		// Return Request
+		return githubRequest;
+	}
 }
 
 /// @func GitHubRequest(requestID)

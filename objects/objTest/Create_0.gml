@@ -1,2 +1,2 @@
 github = new GitHub();
-request = github.getLatestRelease("AlubJ", "BactaTank-Classic");
+request = github.getReleases("AlubJ", "BactaTank-Classic");

@@ -1,1 +1,1 @@
-if (request.httpStatus == 200) show_debug_message($"{request.result.tag_name}");
+if (request.httpStatus == 200) show_debug_message($"{json_stringify(request.result, true)}");
