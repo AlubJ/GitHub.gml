@@ -6,7 +6,16 @@ function GitHub(_authToken = undefined) constructor
 {
 	// Create
 	authToken = _authToken;
+	
+	// Create __github_controller if it doesn't exist
 	if (!instance_exists(__github_controller)) instance_create_depth(0, 0, 0, __github_controller);
+	
+	// Create Early Destruction Detection Timesource
+	timesource = time_source_create(time_source_game, 1, time_source_units_seconds, function() {
+		if (instance_number(__github_controller) > 1) instance_destroy(__github_controller);
+		if (!instance_exists(__github_controller)) instance_create_depth(0, 0, 0, __github_controller);
+	}, [], -1, );
+	time_source_start(timesource);
 	
 	/// @func getLatestRelease(owner, repo)
 	/// @desc Create a request for the latest release of a specific repository.
@@ -14,23 +23,14 @@ function GitHub(_authToken = undefined) constructor
 	/// @arg {String} repo The repository name.
 	static getLatestRelease = function(_owner, _repo)
 	{
-		// Create Header
-		var header = new HTTPHeader();
-		
-		// Build Header
-		header.add("Accept", "application/vnd.github+json");
-		header.add("X-GitHub-Api-Version", __GITHUB_API_VERSION);
-		header.add("User-Agent", __USER_AGENT);
-		if (authToken != undefined) header.add("Authorization", "Bearer " + authToken);
+		// Create Default Headers
+		var header = __createDefaultHeaders();
 		
 		// Create Request
-		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/latest", "GET", header.headerMap, "");
+		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/latest", "GET", header, "");
 		
 		// Create GitHub Request
 		var githubRequest = new GitHubRequest(request.requestID);
-		
-		// Destroy Header Builder
-		header.destroy();
 		
 		// Return Request
 		return githubRequest;
@@ -44,31 +44,49 @@ function GitHub(_authToken = undefined) constructor
 	/// @arg {Real} [page] The page number of the results to fetch.
 	static getReleases = function(_owner, _repo, _perPage = undefined, _page = undefined)
 	{
+		// Create Default Headers
+		var header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var queryParams = "?";
+		if (_perPage != undefined) queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases{queryParams}", "GET", header, "");
+		
+		// Create GitHub Request
+		var githubRequest = new GitHubRequest(request.requestID);
+		
+		// Return Request
+		return githubRequest;
+	}
+	
+	/// @func __createDefaultHeaders()
+	/// @desc Creates default header.
+	/// @return {Struct}
+	static __createDefaultHeaders = function()
+	{
 		// Create Header
 		var header = new HTTPHeader();
 		
 		// Build Header
 		header.add("Accept", "application/vnd.github+json");
 		header.add("X-GitHub-Api-Version", __GITHUB_API_VERSION);
-		header.add("User-Agent", __USER_AGENT);
+		header.add("User-Agent", __GITHUB_USER_AGENT);
 		if (authToken != undefined) header.add("Authorization", "Bearer " + authToken);
 		
-		// Create Optional Query Params
-		var queryParams = "?";
-		if (_perPage != undefined) queryParams += $"{clamp(round(_perPage), 30, 100)}&"; 
-		if (_page != undefined) queryParams += $"{clamp(round(_page), 1, 100)}&"; 
-		
-		// Create Request
-		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases{queryParams}", "GET", header.headerMap, "");
-		
-		// Create GitHub Request
-		var githubRequest = new GitHubRequest(request.requestID);
-		
-		// Destroy Header Builder
-		header.destroy();
-		
-		// Return Request
-		return githubRequest;
+		// Return Header
+		return header;
+	}
+	
+	/// @func destroy()
+	/// @desc Destroy the GitHub controller and clean up memory.
+	static destroy = function()
+	{
+		// Stop and destroy the timesource.
+		time_source_stop(timesource);
+		time_source_destroy(timesource);
 	}
 }
 

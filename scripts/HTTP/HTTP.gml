@@ -18,7 +18,7 @@ function HTTPRequest(_requestURL, _requestMethod, _headerMap, _requestBody) cons
 	requestMethod = _requestMethod;
 	
 	// Request
-	requestID = http_request(requestURL, requestMethod, headerMap, requestBody);
+	requestID = http_request(requestURL, requestMethod, headerMap.headerMap, requestBody);
 	
 	// Push Request To Active Requests
 	array_push(global.__activeRequests__[0], requestID);
@@ -36,9 +36,9 @@ function HTTPGet(_requestURL) constructor
 	result = "null";
 	requestURL = _requestURL;
 	httpStatus = undefined;
-	headerMap = _headerMap;
-	requestBody = _requestBody;
-	requestMethod = _requestMethod;
+	headerMap = undefined;
+	requestBody = undefined;
+	requestMethod = undefined;
 	
 	// Send Request
 	requestID = http_get(requestURL);
