@@ -17,6 +17,8 @@ function GitHub(_authToken = undefined) constructor
 	}, [], -1, );
 	time_source_start(timesource);
 	
+	#region Releases
+	
 	/// @func getLatestRelease(owner, repo)
 	/// @desc Create a request for the latest release of a specific repository.
 	/// @arg {String} owner The owner of the repo.
@@ -24,16 +26,16 @@ function GitHub(_authToken = undefined) constructor
 	static getLatestRelease = function(_owner, _repo)
 	{
 		// Create Default Headers
-		var header = __createDefaultHeaders();
+		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/latest", "GET", header, "");
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/latest", "GET", _header, "");
 		
 		// Create GitHub Request
-		var githubRequest = new GitHubRequest(request.requestID);
+		var _githubRequest = new GitHubRequest(_request.requestID);
 		
 		// Return Request
-		return githubRequest;
+		return _githubRequest;
 	}
 	
 	/// @func getReleases(owner, repo, [perPage], [page])
@@ -45,22 +47,46 @@ function GitHub(_authToken = undefined) constructor
 	static getReleases = function(_owner, _repo, _perPage = undefined, _page = undefined)
 	{
 		// Create Default Headers
-		var header = __createDefaultHeaders();
+		var _header = __createDefaultHeaders();
 		
 		// Create Optional Query Params
-		var queryParams = "?";
-		if (_perPage != undefined) queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
-		if (_page != undefined) queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
 		
 		// Create Request
-		var request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases{queryParams}", "GET", header, "");
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases{_queryParams}", "GET", _header, "");
 		
 		// Create GitHub Request
-		var githubRequest = new GitHubRequest(request.requestID);
+		var _githubRequest = new GitHubRequest(_request.requestID);
 		
 		// Return Request
-		return githubRequest;
+		return _githubRequest;
 	}
+	
+	/// @func createRelease(owner, repo, release)
+	/// @desc Create a new release.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Struct} release The release struct.
+	static createRelease = function(_owner, _repo, _release)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases", "POST", _header, _release.generateJSON());
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
+	#region Helper
 	
 	/// @func __createDefaultHeaders()
 	/// @desc Creates default header.
@@ -80,6 +106,10 @@ function GitHub(_authToken = undefined) constructor
 		return header;
 	}
 	
+	#endregion
+	
+	#region Other
+	
 	/// @func destroy()
 	/// @desc Destroy the GitHub controller and clean up memory.
 	static destroy = function()
@@ -88,6 +118,8 @@ function GitHub(_authToken = undefined) constructor
 		time_source_stop(timesource);
 		time_source_destroy(timesource);
 	}
+	
+	#endregion
 }
 
 /// @func GitHubRequest(requestID)
@@ -106,8 +138,70 @@ function GitHubRequest(_requestID) constructor
 	array_push(global.__activeGitHubRequests__[1], self);
 	
 	// Methods
+	/// @func parseResult(result)
+	/// @desc Parses the incoming JSON data into the struct.
+	/// @arg {String} result The incoming JSON data.
 	static parseResult = function(_result)
 	{
 		result = json_parse(_result);
+	}
+}
+
+
+/// @func GitHubRelease()
+/// @desc Constructor for creating a GitHub Release
+function GitHubRelease() constructor
+{
+	// Variables
+	tagName = undefined; // Required
+	targetCommitish = undefined;
+	name = undefined;
+	body = undefined;
+	draft = false;
+	prerelease = false;
+	discussionCategoryName = undefined;
+	generateReleaseNotes = false;
+	makeLatest = true;
+	
+	// Methods
+	/// @func generateJSON()
+	/// @desc Generates JSON data to be sent with the POST request.
+	/// @return {String} The JSON data.
+	static generateJSON = function()
+	{
+		// Create Struct
+		var _struct = {};
+		
+		// Append Values Into Structure
+		// Tag Name
+		if (tagName != undefined) _struct[$ "tag_name"] = tagName;
+		else throw ("GitHubRelease.tagName is required");
+		
+		// Target Commitish
+		if (targetCommitish != undefined) _struct[$ "target_commitish"] = targetCommitish;
+		
+		// Name
+		if (name != undefined) _struct[$ "name"] = name;
+		
+		// Body
+		if (body != undefined) _struct[$ "body"] = body;
+		
+		// Draft
+		_struct[$ "draft"] = bool(draft);
+		
+		// Pre-Release
+		_struct[$ "prerelease"] = bool(prerelease);
+		
+		// Discussion Category Name
+		if (discussionCategoryName != undefined) _struct[$ "discussion_category_name"] = discussionCategoryName;
+		
+		// Generate Release Notes
+		_struct[$ "generate_release_notes"] = bool(generateReleaseNotes);
+		
+		// Make Latest
+		_struct[$ "make_latest"] = makeLatest ? "true" : "false";
+		
+		// Return JSON
+		return json_stringify(_struct);
 	}
 }

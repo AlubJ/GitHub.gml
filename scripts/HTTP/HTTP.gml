@@ -1,10 +1,10 @@
 // Feather disable all
 /// @func HTTPRequest(requestURL, requestMethod, headerMap, requestBody)
 /// @desc Constructor for creating a new HTTP request.
-/// @arg {String} [requestURL] The URL to send the request to. 
-/// @arg {String} [requestMethod] The request method to use. 
-/// @arg {Id.DsMap} [headerMap] The header map to use.
-/// @arg {String} [requestBody] The body of the request.
+/// @arg {String} requestURL The URL to send the request to. 
+/// @arg {String} requestMethod The request method to use. 
+/// @arg {Id.DsMap} headerMap The header map to use.
+/// @arg {String} requestBody The body of the request.
 function HTTPRequest(_requestURL, _requestMethod, _headerMap, _requestBody) constructor
 {
 	// Variables
@@ -16,6 +16,9 @@ function HTTPRequest(_requestURL, _requestMethod, _headerMap, _requestBody) cons
 	headerMap = _headerMap;
 	requestBody = _requestBody;
 	requestMethod = _requestMethod;
+	localTarget = undefined;
+	contentLength = 0;
+	sizeDownloaded = 0;
 	
 	// Request
 	requestID = http_request(requestURL, requestMethod, headerMap.headerMap, requestBody);
@@ -27,7 +30,7 @@ function HTTPRequest(_requestURL, _requestMethod, _headerMap, _requestBody) cons
 
 /// @func HTTPGet(requestURL)
 /// @desc Constructor for creating a new HTTP get request.
-/// @arg {String} [requestURL] The URL to send the request to. 
+/// @arg {String} requestURL The URL to send the request to. 
 function HTTPGet(_requestURL) constructor
 {
 	// Variables
@@ -39,9 +42,39 @@ function HTTPGet(_requestURL) constructor
 	headerMap = undefined;
 	requestBody = undefined;
 	requestMethod = undefined;
+	localTarget = undefined;
+	contentLength = 0;
+	sizeDownloaded = 0;
 	
 	// Send Request
 	requestID = http_get(requestURL);
+	
+	// Push Request To Active Requests
+	array_push(global.__activeRequests__[0], requestID);
+	array_push(global.__activeRequests__[1], self);
+}
+
+/// @func HTTPGetFile(requestURL, localTarget)
+/// @desc Constructor for creating a new HTTP get file request (File Download).
+/// @arg {String} requestURL The URL to send the request to.
+/// @arg {String} localTarget The local filepath to download the file to.
+function HTTPGetFile(_requestURL, _localTarget) constructor
+{
+	// Variables
+	requestID = undefined;
+	status = undefined;
+	result = "null";
+	requestURL = _requestURL;
+	httpStatus = undefined;
+	headerMap = undefined;
+	requestBody = undefined;
+	requestMethod = undefined;
+	localTarget = _localTarget;
+	contentLength = 0;
+	sizeDownloaded = 0;
+	
+	// Send Request
+	requestID = http_get_file(requestURL, localTarget);
 	
 	// Push Request To Active Requests
 	array_push(global.__activeRequests__[0], requestID);
