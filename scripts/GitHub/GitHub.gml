@@ -64,6 +64,46 @@ function GitHub(_authToken = undefined) constructor
 		return _githubRequest;
 	}
 	
+	/// @func getReleaseByTag(owner, repo, tagName)
+	/// @desc Get a release by its tag name.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} tagName The tag name of the release.
+	static getReleaseByTag = function(_owner, _repo, _tagName)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/tags/{_tagName}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getRelease(owner, repo, releaseID)
+	/// @desc Get a release by its releaseID.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} releaseID The ID of the release.
+	static getRelease = function(_owner, _repo, _releaseID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
 	/// @func createRelease(owner, repo, release)
 	/// @desc Create a new release.
 	/// @arg {String} owner The owner of the repo.
@@ -76,6 +116,169 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create Request
 		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases", "POST", _header, _release.generateJSON());
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateRelease(owner, repo, releaseID, release)
+	/// @desc Update an existing release.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} releaseID The ID of the release.
+	/// @arg {Struct} release The release struct.
+	static updateRelease = function(_owner, _repo, _releaseID, _release)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}", "PATCH", _header, _release.generateJSON());
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteRelease(owner, repo, releaseID)
+	/// @desc Delete an existing release.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} releaseID The ID of the release.
+	static deleteRelease = function(_owner, _repo, _releaseID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
+	#region Release Assets
+	
+	/// @func getReleaseAsset(owner, repo, assetID)
+	/// @desc Get asset from a release.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} assetID The asset ID of the repo.
+	static getReleaseAsset = function(_owner, _repo, _assetID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/assets/{_assetID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getReleaseAssets(owner, repo, releaseID, [perPage], [page])
+	/// @desc Get asset from a release.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} releaseID The release ID of the repo.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	static getReleaseAssets = function(_owner, _repo, _releaseID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}/assets{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func uploadReleaseAsset(owner, repo, releaseID, buffer, contentType, targetFilename, [label])
+	/// @desc Upload a release asset.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} releaseID The release ID of the repo.
+	/// @arg {Id.Buffer} buffer The buffer to upload.
+	/// @arg {String} contentType The content type of the release asset.
+	/// @arg {String} targetFilename The target filename for the release asset.
+	/// @arg {String} [label] The label for the release asset.
+	static uploadReleaseAsset = function(_owner, _repo, _releaseID, _buffer, _contentType, _targetFilename, _label = "")
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		_header.add("Content-Length", buffer_get_size(_buffer));
+		_header.add("Content-Type", _contentType);
+		
+		// Seek To 0x01 In Buffer
+		buffer_seek(_buffer, buffer_seek_start, 1);
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://uploads.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}/assets?name={_targetFilename}&label={_label}", "POST", _header, _buffer);
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateReleaseAsset(owner, repo, assetID, filename, [label])
+	/// @desc Upload a release asset.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} assetID The asset ID of the release.
+	/// @arg {String} filename The updated filename.
+	/// @arg {String} [label] The updated label.
+	static updateReleaseAsset = function(_owner, _repo, _assetID, _filename, _label = "")
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/assets/{_assetID}", "PATCH", _header, json_stringify({name: _filename, label: _label}));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteReleaseAsset(owner, repo, assetID)
+	/// @desc Delete an existing release asset.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} assetID The ID of the asset.
+	static deleteReleaseAsset = function(_owner, _repo, _assetID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/assets/{_assetID}", "DELETE", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
@@ -131,6 +334,8 @@ function GitHubRequest(_requestID) constructor
 	requestID = _requestID;
 	status = undefined;
 	httpStatus = undefined;
+	contentLength = 0;
+	sizeDownloaded = 0;
 	result = "null";
 	
 	// Push Request To Active GitHub Requests
