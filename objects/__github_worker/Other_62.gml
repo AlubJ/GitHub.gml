@@ -70,7 +70,7 @@ if (array_contains(_system.__activeRequests[0], async_load[? "id"]))
 		_requestObject.result = async_load[? "result"];
 		
 		// Delete The Header Map
-		if (ds_exists(_requestObject.headerMap, ds_type_map)) _requestObject.headerMap.destroy();
+		if (ds_exists(_requestObject.headerMap, ds_type_map)) ds_map_destroy(_requestObject.headerMap);
 		
 		// Delete From Active Requests
 		array_delete(_system.__activeRequests[0], _requestIndex, 1);

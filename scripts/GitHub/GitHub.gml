@@ -36,9 +36,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -65,9 +62,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -87,9 +81,6 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
-		
-		// Delete the header map
-		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -111,9 +102,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -133,9 +121,6 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
-		
-		// Delete the header map
-		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -158,9 +143,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -180,9 +162,6 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
-		
-		// Delete the header map
-		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -207,9 +186,6 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
-		
-		// Delete the header map
-		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -237,9 +213,6 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
-		
-		// Delete the header map
-		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -270,9 +243,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -295,9 +265,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -318,9 +285,6 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
-		// Delete the header map
-		_header.destroy();
-		
 		// Return Request
 		return _githubRequest;
 	}
@@ -335,13 +299,13 @@ function GitHub(_authToken = undefined) constructor
 	static __createDefaultHeaders = function()
 	{
 		// Create Header
-		var _header = new HTTPHeader();
+		var _header = ds_map_create();
 		
 		// Build Header
-		_header.add("Accept", "application/vnd.github+json");
-		_header.add("X-GitHub-Api-Version", GITHUB_GML_API_VERSION);
-		_header.add("User-Agent", GITHUB_GML_USER_AGENT);
-		if (__authToken != undefined) _header.add("Authorization", "Bearer " + __authToken);
+		ds_map_add(_header, "Accept", "application/vnd.github+json");
+		ds_map_add(_header, "X-GitHub-Api-Version", GITHUB_GML_API_VERSION);
+		ds_map_add(_header, "User-Agent", GITHUB_GML_USER_AGENT);
+		if (__authToken != undefined) ds_map_add(_header, "Authorization", "Bearer " + __authToken);
 		
 		// Return Header
 		return _header;

@@ -21,7 +21,7 @@ function HTTPRequest(_requestURL, _requestMethod, _headerMap, _requestBody) cons
 	sizeDownloaded = 0;
 	
 	// Request
-	requestID = http_request(requestURL, requestMethod, headerMap.headerMap, requestBody);
+	requestID = http_request(requestURL, requestMethod, headerMap, requestBody);
 	
 	// Get system
 	var _system = __GitHubSystem();
