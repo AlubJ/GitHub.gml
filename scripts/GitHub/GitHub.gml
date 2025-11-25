@@ -291,6 +291,287 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Assignees
+	
+	/// @func getAssignees(owner, repo, [perPage], [page])
+	/// @desc Get assignees / contributors in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/assignees#list-assignees
+	static getAssignees = function(_owner, _repo, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/assignees{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func userAssignable(owner, repo, assignee)
+	/// @desc Get assignees / contributors in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} assignee The assignee name.
+	/// Documentation: https://docs.github.com/en/rest/issues/assignees#check-if-a-user-can-be-assigned
+	static userAssignable = function(_owner, _repo, _assignee)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/assignees/{_assignee}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func addAssigneesToIssue(owner, repo, issueID, assignees)
+	/// @desc Add assignees / contributors in a repository to an issue.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID	The issue ID / number.
+	/// @arg {Array.String} assignees List of assignees.
+	/// Documentation: https://docs.github.com/en/rest/issues/assignees#add-assignees-to-an-issue
+	static addAssigneesToIssue = function(_owner, _repo, _issueID, _assignees)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Request body
+		var _requestBody = "";
+		if (!is_undefined(_assignees) && !is_array(_assignees)) _assignees = [_assignees];
+		_requestBody = json_stringify({assignees: _assignees});
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/assignees", "POST", _header, _requestBody);
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func removeAssigneesFromIssue(owner, repo, issueID, assignees)
+	/// @desc Remove assignees / contributors in a repository from an issue.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID	The issue ID / number.
+	/// @arg {Array.String} assignees List of assignees.
+	/// Documentation: https://docs.github.com/en/rest/issues/assignees#remove-assignees-from-an-issue
+	static removeAssigneesFromIssue = function(_owner, _repo, _issueID, _assignees)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Request body
+		var _requestBody = "";
+		if (!is_undefined(_assignees) && !is_array(_assignees)) _assignees = [_assignees];
+		_requestBody = json_stringify({assignees: _assignees});
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/assignees", "DELETE", _header, _requestBody);
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func userAssignableToIssue(owner, repo, issueID, assignee)
+	/// @desc Get assignees / contributors in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID	The issue ID / number.
+	/// @arg {String} assignee The assignee name.
+	/// Documentation: https://docs.github.com/en/rest/issues/assignees#check-if-a-user-can-be-assigned-to-a-issue
+	static userAssignableToIssue = function(_owner, _repo, _issueID, _assignee)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/assignees/{_assignee}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
+	#region Issue Comments
+	
+	/// @func getRepoIssueComments(owner, repo, [sort], [direction], [since], [perPage], [page])
+	/// @desc Get all issue comments in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} [sort] Sort by "created" or "updated".
+	/// @arg {String} [direction] Direction to sort by, "asc" or "desc".
+	/// @arg {String} [since] Only show results that were updated after the given time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/comments#list-issue-comments-for-a-repository
+	static getRepoIssueComments = function(_owner, _repo, _sort = undefined, _direction = undefined, _since = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_sort != undefined)			_queryParams += $"sort={_sort}&";
+		if (_direction != undefined)	_queryParams += $"direction={_direction}&";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/comments{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getIssueComment(owner, repo, commentID)
+	/// @desc Get an issue comment in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} commentID The comment ID.
+	/// Documentation: https://docs.github.com/en/rest/issues/comments#get-an-issue-comment
+	static getIssueComment = function(_owner, _repo, _commentID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/comments/{_commentID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateIssueComment(owner, repo, commentID, body)
+	/// @desc Update an issue comment in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} commentID The comment ID.
+	/// @arg {String} body The body of the comment.
+	/// Documentation: https://docs.github.com/en/rest/issues/comments#update-an-issue-comment
+	static updateIssueComment = function(_owner, _repo, _commentID, _body)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/comments/{_commentID}", "PATCH", _header, $"\{\"body\": \"{_body}\"\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteIssueComment(owner, repo, commentID)
+	/// @desc Delete an issue comment in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} commentID The comment ID.
+	/// Documentation: https://docs.github.com/en/rest/issues/comments#delete-an-issue-comment
+	static deleteIssueComment = function(_owner, _repo, _commentID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/comments/{_commentID}", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getIssueComments(owner, repo, issueID, [since], [perPage], [page])
+	/// @desc Get an issues comments in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The repository name.
+	/// @arg {String} [since] Only show results that were updated after the given time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/comments#list-issue-comments
+	static getIssueComments = function(_owner, _repo, _issueID, _since = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/comments{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func createIssueComment(owner, repo, issueID, _body)
+	/// @desc Create an issue comment in a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The repository name.
+	/// @arg {String} body The body of the issue comment.
+	/// Documentation: https://docs.github.com/en/rest/issues/comments#create-an-issue-comment
+	static createIssueComment = function(_owner, _repo, _issueID, _body)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/comments", "POST", _header, $"\{\"body\": \"{_body}\"\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Helper
 	
 	/// @func __createDefaultHeaders()
