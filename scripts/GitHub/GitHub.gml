@@ -1,21 +1,23 @@
 // Feather disable all
-/// @func GitHub([authToken])
+
+/// @func GitHub([__authToken])
 /// @desc Constructor for creating a new instance of GitHub.
-/// @arg {String} [authToken] The authorization token to be used for requests. 
+/// @arg {String} [__authToken] The authorization token to be used for requests. 
 function GitHub(_authToken = undefined) constructor
 {
 	// Create
-	authToken = _authToken;
+	if (_authToken == undefined) __GitHubTrace("No authentication token provided to GitHub.gml, you may encounter rate limits and certain API functions returning nothing");
+	__authToken = _authToken;
 	
 	// Create __github_controller if it doesn't exist
-	if (!instance_exists(__github_controller)) instance_create_depth(0, 0, 0, __github_controller);
+	if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
 	
-	// Create Early Destruction Detection Timesource
-	timesource = time_source_create(time_source_game, 1, time_source_units_seconds, function() {
-		if (instance_number(__github_controller) > 1) instance_destroy(__github_controller);
-		if (!instance_exists(__github_controller)) instance_create_depth(0, 0, 0, __github_controller);
+	// Create early destruction detection timesource, essentially a "keep alive" to make sure the worker exists at all times when GitHub exists
+	__timesource = time_source_create(time_source_game, 1, time_source_units_seconds, function() {
+		if (instance_number(__github_worker) > 1) instance_destroy(__github_worker);
+		if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
 	}, [], -1, );
-	time_source_start(timesource);
+	time_source_start(__timesource);
 	
 	#region Releases
 	
@@ -29,10 +31,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/latest", "GET", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/latest", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -55,10 +60,13 @@ function GitHub(_authToken = undefined) constructor
 		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases{_queryParams}", "GET", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases{_queryParams}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -75,10 +83,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/tags/{_tagName}", "GET", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/tags/{_tagName}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -95,10 +106,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}", "GET", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/{_releaseID}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -115,10 +129,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases", "POST", _header, _release.generateJSON());
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases", "POST", _header, _release.generateJSON());
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -136,10 +153,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}", "PATCH", _header, _release.generateJSON());
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/{_releaseID}", "PATCH", _header, _release.generateJSON());
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -156,10 +176,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}", "DELETE", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/{_releaseID}", "DELETE", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -180,10 +203,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/assets/{_assetID}", "GET", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/assets/{_assetID}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -207,10 +233,13 @@ function GitHub(_authToken = undefined) constructor
 		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/{_releaseID}/assets{_queryParams}", "GET", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/{_releaseID}/assets{_queryParams}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -241,6 +270,9 @@ function GitHub(_authToken = undefined) constructor
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
 		
+		// Delete the header map
+		_header.destroy();
+		
 		// Return Request
 		return _githubRequest;
 	}
@@ -258,10 +290,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/assets/{_assetID}", "PATCH", _header, json_stringify({name: _filename, label: _label}));
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/assets/{_assetID}", "PATCH", _header, json_stringify({name: _filename, label: _label}));
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -278,10 +313,13 @@ function GitHub(_authToken = undefined) constructor
 		var _header = __createDefaultHeaders();
 		
 		// Create Request
-		var _request = new HTTPRequest($"https://api.github.com/repos/{_owner}/{_repo}/releases/assets/{_assetID}", "DELETE", _header, "");
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/releases/assets/{_assetID}", "DELETE", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Delete the header map
+		_header.destroy();
 		
 		// Return Request
 		return _githubRequest;
@@ -297,16 +335,16 @@ function GitHub(_authToken = undefined) constructor
 	static __createDefaultHeaders = function()
 	{
 		// Create Header
-		var header = new HTTPHeader();
+		var _header = new HTTPHeader();
 		
 		// Build Header
-		header.add("Accept", "application/vnd.github+json");
-		header.add("X-GitHub-Api-Version", __GITHUB_API_VERSION);
-		header.add("User-Agent", __GITHUB_USER_AGENT);
-		if (authToken != undefined) header.add("Authorization", "Bearer " + authToken);
+		_header.add("Accept", "application/vnd.github+json");
+		_header.add("X-GitHub-Api-Version", GITHUB_GML_API_VERSION);
+		_header.add("User-Agent", GITHUB_GML_USER_AGENT);
+		if (__authToken != undefined) _header.add("Authorization", "Bearer " + __authToken);
 		
 		// Return Header
-		return header;
+		return _header;
 	}
 	
 	#endregion
@@ -318,8 +356,8 @@ function GitHub(_authToken = undefined) constructor
 	static destroy = function()
 	{
 		// Stop and destroy the timesource.
-		time_source_stop(timesource);
-		time_source_destroy(timesource);
+		time_source_stop(__timesource);
+		time_source_destroy(__timesource);
 	}
 	
 	#endregion
@@ -338,9 +376,12 @@ function GitHubRequest(_requestID) constructor
 	sizeDownloaded = 0;
 	result = "null";
 	
+	// Get system
+	var _system = __GitHubSystem();
+	
 	// Push Request To Active GitHub Requests
-	array_push(global.__activeGitHubRequests__[0], requestID);
-	array_push(global.__activeGitHubRequests__[1], self);
+	array_push(_system.__activeGitHubRequests[0], requestID);
+	array_push(_system.__activeGitHubRequests[1], self);
 	
 	// Methods
 	/// @func parseResult(result)
@@ -351,7 +392,6 @@ function GitHubRequest(_requestID) constructor
 		result = json_parse(_result);
 	}
 }
-
 
 /// @func GitHubRelease()
 /// @desc Constructor for creating a GitHub Release

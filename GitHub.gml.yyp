@@ -2,7 +2,7 @@
   "$GMProject":"v1",
   "%Name":"GitHub.gml",
   "AudioGroups":[
-    {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[],
@@ -11,6 +11,8 @@
   "defaultScriptType":1,
   "Folders":[
     {"$GMFolder":"","%Name":"GitHub.GML","folderPath":"folders/GitHub.GML.yy","name":"GitHub.GML","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"(System)","folderPath":"folders/GitHub.GML/(System).yy","name":"(System)","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Supplementary Scripts","folderPath":"folders/GitHub.GML/Supplementary Scripts.yy","name":"Supplementary Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -22,14 +24,20 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.1.193",
+    "IDEVersion":"2024.14.1.210",
   },
   "name":"GitHub.gml",
   "resources":[
-    {"id":{"name":"__github_controller","path":"objects/__github_controller/__github_controller.yy",},},
+    {"id":{"name":"__github_worker","path":"objects/__github_worker/__github_worker.yy",},},
     {"id":{"name":"objTest","path":"objects/objTest/objTest.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"__GitHubConfig","path":"scripts/__GitHubConfig/__GitHubConfig.yy",},},
+    {"id":{"name":"__GitHubConstants","path":"scripts/__GitHubConstants/__GitHubConstants.yy",},},
+    {"id":{"name":"__GitHubError","path":"scripts/__GitHubError/__GitHubError.yy",},},
+    {"id":{"name":"__GitHubSystem","path":"scripts/__GitHubSystem/__GitHubSystem.yy",},},
+    {"id":{"name":"__GitHubTrace","path":"scripts/__GitHubTrace/__GitHubTrace.yy",},},
+    {"id":{"name":"__GitHubWarn","path":"scripts/__GitHubWarn/__GitHubWarn.yy",},},
+    {"id":{"name":"__StructToDSMap","path":"scripts/__StructToDSMap/__StructToDSMap.yy",},},
     {"id":{"name":"GitHub","path":"scripts/GitHub/GitHub.yy",},},
     {"id":{"name":"HTTP","path":"scripts/HTTP/HTTP.yy",},},
   ],

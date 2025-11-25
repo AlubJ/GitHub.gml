@@ -1,15 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"__github_controller",
+  "%Name":"__github_worker",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":62,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"__github_controller",
+  "name":"__github_worker",
   "overriddenProperties":[],
   "parent":{
-    "name":"GitHub.GML",
-    "path":"folders/GitHub.GML.yy",
+    "name":"(System)",
+    "path":"folders/GitHub.GML/(System).yy",
   },
   "parentObjectId":null,
   "persistent":true,

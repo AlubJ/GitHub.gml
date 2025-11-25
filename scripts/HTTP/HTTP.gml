@@ -23,9 +23,12 @@ function HTTPRequest(_requestURL, _requestMethod, _headerMap, _requestBody) cons
 	// Request
 	requestID = http_request(requestURL, requestMethod, headerMap.headerMap, requestBody);
 	
+	// Get system
+	var _system = __GitHubSystem();
+	
 	// Push Request To Active Requests
-	array_push(global.__activeRequests__[0], requestID);
-	array_push(global.__activeRequests__[1], self);
+	array_push(_system.__activeRequests[0], requestID);
+	array_push(_system.__activeRequests[1], self);
 }
 
 /// @func HTTPGet(requestURL)
@@ -49,9 +52,12 @@ function HTTPGet(_requestURL) constructor
 	// Send Request
 	requestID = http_get(requestURL);
 	
+	// Get system
+	var _system = __GitHubSystem();
+	
 	// Push Request To Active Requests
-	array_push(global.__activeRequests__[0], requestID);
-	array_push(global.__activeRequests__[1], self);
+	array_push(_system.__activeRequests[0], requestID);
+	array_push(_system.__activeRequests[1], self);
 }
 
 /// @func HTTPGetFile(requestURL, localTarget)
@@ -76,9 +82,12 @@ function HTTPGetFile(_requestURL, _localTarget) constructor
 	// Send Request
 	requestID = http_get_file(requestURL, localTarget);
 	
+	// Get system
+	var _system = __GitHubSystem();
+	
 	// Push Request To Active Requests
-	array_push(global.__activeRequests__[0], requestID);
-	array_push(global.__activeRequests__[1], self);
+	array_push(_system.__activeRequests[0], requestID);
+	array_push(_system.__activeRequests[1], self);
 }
 
 /// @func HTTPHeader()

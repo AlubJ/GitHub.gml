@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"__GitHubConfig",
+  "%Name":"__GitHubWarn",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__GitHubConfig",
+  "name":"__GitHubWarn",
   "parent":{
     "name":"(System)",
     "path":"folders/GitHub.GML/(System).yy",

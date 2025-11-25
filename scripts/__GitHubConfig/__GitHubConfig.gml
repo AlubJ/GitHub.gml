@@ -1,7 +1,7 @@
 // Feather disable all
-#macro __GITHUB_API_VERSION "2022-11-28"	// The version of the API to use
-#macro __GITHUB_USER_AGENT "Alub"					// The user agent of the requests
 
-// Active requests and active github request arrays
-global.__activeRequests__ = [[], []];
-global.__activeGitHubRequests__ = [[], []];
+// The GitHub API has numerous versions to work with. GitHub.gml is designed to work with the latest version at the time of writing (2022-11-28)
+#macro GITHUB_GML_API_VERSION	"2022-11-28"
+
+// The GitHub API requires a user agent to be set when making requests to the API endpoints
+#macro GITHUB_GML_USER_AGENT	"Alub"
