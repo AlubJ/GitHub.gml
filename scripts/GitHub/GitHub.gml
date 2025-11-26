@@ -1,8 +1,8 @@
 // Feather disable all
 
-/// @func GitHub([__authToken])
+/// @func GitHub([authToken])
 /// @desc Constructor for creating a new instance of GitHub.
-/// @arg {String} [__authToken] The authorization token to be used for requests. 
+/// @arg {String} [authToken] The authorization token to be used for requests. 
 function GitHub(_authToken = undefined) constructor
 {
 	// Create
@@ -258,7 +258,7 @@ function GitHub(_authToken = undefined) constructor
 	}
 	
 	/// @func updateReleaseAsset(owner, repo, assetID, filename, [label])
-	/// @desc Upload a release asset.
+	/// @desc Update a release asset.
 	/// @arg {String} owner The owner of the repo.
 	/// @arg {String} repo The repository name.
 	/// @arg {Real} assetID The asset ID of the release.
@@ -588,7 +588,7 @@ function GitHub(_authToken = undefined) constructor
 	
 	/// @func getIssuesAssignedToMe([filter], [state], [labels], [sort], [direction], [since], [collab], [orgs], [owned], [pulls], [perPage], [page])
 	/// @desc Get all the issues assigned to the authenticated user.
-	/// @arg {String} [filter] Filter by "assgined", "created", "mentioned", "subscribed", "repos" or "all".
+	/// @arg {String} [filter] Filter by "assigned", "created", "mentioned", "subscribed", "repos" or "all".
 	/// @arg {String} [state] Issue state filter by "open", "closed" or "all".
 	/// @arg {String} [labels] Issue labels separated by commas ("bug,ui,@high").
 	/// @arg {String} [sort] Sort by "created" or "updated".
@@ -802,7 +802,7 @@ function GitHub(_authToken = undefined) constructor
 		return _githubRequest;
 	}
 	
-	/// @func unlockIssue(owner, repo, issueID, lockReason)
+	/// @func unlockIssue(owner, repo, issueID)
 	/// @desc Unlock a locked issue.
 	/// @arg {String} owner The owner of the repo.
 	/// @arg {String} repo The repository name.
@@ -815,6 +815,86 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create Request
 		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/lock", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
+	#region Issue Events
+	
+	/// @func getRepoIssueEvents(owner, repo, [perPage], [page])
+	/// @desc Get a repositories issue events.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/events#list-issue-events-for-a-repository
+	static getRepoIssueEvents = function(_owner, _repo, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/events{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getIssueEvent(owner, repo, eventID)
+	/// @desc Get a repository issue event.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} eventID The event ID.
+	/// Documentation: https://docs.github.com/en/rest/issues/events#get-an-issue-event
+	static getIssueEvent = function(_owner, _repo, _eventID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/events/{_eventID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getIssueEvents(owner, repo, issueID, [perPage], [page])
+	/// @desc Get an issues events.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The issue ID.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/events#list-issue-events
+	static getIssueEvents = function(_owner, _repo, _issueID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/events{_queryParams}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
