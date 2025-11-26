@@ -1,6 +1,6 @@
 // Feather disable all
 
-function __GitHubError()
+function __GitHubError(_string)
 {
     show_error($" \nGitHub.gml:\n{_string}\n ", true);
 }

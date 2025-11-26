@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"HTTP",
+  "%Name":"GitHubIssue",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"HTTP",
+  "name":"GitHubIssue",
   "parent":{
-    "name":"Supplementary Scripts",
-    "path":"folders/GitHub.GML/Supplementary Scripts.yy",
+    "name":"GitHub Constructors",
+    "path":"folders/GitHub.GML/GitHub Constructors.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

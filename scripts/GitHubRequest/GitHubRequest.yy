@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"HTTP",
+  "%Name":"GitHubRequest",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"HTTP",
+  "name":"GitHubRequest",
   "parent":{
     "name":"Supplementary Scripts",
     "path":"folders/GitHub.GML/Supplementary Scripts.yy",

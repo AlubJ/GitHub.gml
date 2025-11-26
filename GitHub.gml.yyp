@@ -12,6 +12,7 @@
   "Folders":[
     {"$GMFolder":"","%Name":"GitHub.GML","folderPath":"folders/GitHub.GML.yy","name":"GitHub.GML","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"(System)","folderPath":"folders/GitHub.GML/(System).yy","name":"(System)","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"GitHub Constructors","folderPath":"folders/GitHub.GML/GitHub Constructors.yy","name":"GitHub Constructors","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Supplementary Scripts","folderPath":"folders/GitHub.GML/Supplementary Scripts.yy","name":"Supplementary Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -40,6 +41,9 @@
     {"id":{"name":"__GitHubWarn","path":"scripts/__GitHubWarn/__GitHubWarn.yy",},},
     {"id":{"name":"__StructToDSMap","path":"scripts/__StructToDSMap/__StructToDSMap.yy",},},
     {"id":{"name":"GitHub","path":"scripts/GitHub/GitHub.yy",},},
+    {"id":{"name":"GitHubIssue","path":"scripts/GitHubIssue/GitHubIssue.yy",},},
+    {"id":{"name":"GitHubRelease","path":"scripts/GitHubRelease/GitHubRelease.yy",},},
+    {"id":{"name":"GitHubRequest","path":"scripts/GitHubRequest/GitHubRequest.yy",},},
     {"id":{"name":"HTTP","path":"scripts/HTTP/HTTP.yy",},},
   ],
   "resourceType":"GMProject",
