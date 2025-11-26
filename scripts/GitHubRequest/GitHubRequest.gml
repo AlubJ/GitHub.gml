@@ -13,12 +13,8 @@ function GitHubRequest(_requestID) constructor
 	sizeDownloaded = 0;
 	result = "null";
 	
-	// Get system
-	var _system = __GitHubSystem();
-	
-	// Push Request To Active GitHub Requests
-	array_push(_system.__activeGitHubRequests[0], requestID);
-	array_push(_system.__activeGitHubRequests[1], self);
+	// Push Request To Active Requests
+	__GitHubSystem().__activeGitHubRequests[$ requestID] = self;
 	
 	// Methods
 	/// @func parseResult(result)

@@ -24,6 +24,6 @@ function __StructToDSMap(_struct)
 	}
 	else
 	{
-		__GitHubWarn("Wrong datatype passed into __StructToDSMap(). Expected a struct.");
+		__GitHubError("Wrong datatype passed into __StructToDSMap(). Expected a struct.");
 	}
 }

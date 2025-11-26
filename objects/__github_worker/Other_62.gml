@@ -3,14 +3,13 @@
 // Get system
 var _system = __GitHubSystem();
 
-if (array_contains(_system.__activeRequests[0], async_load[? "id"]))
+if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 {
 	// Request ID
 	var _requestID = async_load[? "id"];
 	
 	// Get Request Object
-	var _requestIndex = array_get_index(_system.__activeRequests[0], _requestID);
-	var _requestObject = _system.__activeRequests[1][_requestIndex];
+	var _requestObject = _system.__activeRequests[$ _requestID];
 	
 	// Set Status
 	_requestObject.status = async_load[? "status"];
@@ -20,11 +19,10 @@ if (array_contains(_system.__activeRequests[0], async_load[? "id"]))
 	show_debug_message(array);
 	
 	// Get GitHub Request and Set Its Status
-	if (array_contains(_system.__activeGitHubRequests[0], _requestID))
+	if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
 	{
 		// Get GitHub Request Object
-		var _ghRequestIndex = array_get_index(_system.__activeGitHubRequests[0], _requestID);
-		var _ghRequestObject = _system.__activeGitHubRequests[1][_ghRequestIndex];
+		var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
 		
 		// Set Status
 		_ghRequestObject.status = async_load[? "status"];
@@ -38,11 +36,10 @@ if (array_contains(_system.__activeRequests[0], async_load[? "id"]))
 		_requestObject.sizeDownloaded = async_load[? "sizeDownloaded"];
 		
 		// Get GitHub Request and Set Its Status
-		if (array_contains(_system.__activeGitHubRequests[0], _requestID))
+		if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
 		{
 			// Get GitHub Request Object
-			var _ghRequestIndex = array_get_index(_system.__activeGitHubRequests[0], _requestID);
-			var _ghRequestObject = _system.__activeGitHubRequests[1][_ghRequestIndex];
+			var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
 			
 			// Set Status
 			_ghRequestObject.contentLength = async_load[? "contentLength"];
@@ -56,11 +53,10 @@ if (array_contains(_system.__activeRequests[0], async_load[? "id"]))
 		_requestObject.httpStatus = async_load[? "http_status"];
 		
 		// Get GitHub Request and Set Its HTTP Status
-		if (array_contains(_system.__activeGitHubRequests[0], _requestID))
+		if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
 		{
 			// Get GitHub Request Object
-			var _ghRequestIndex = array_get_index(_system.__activeGitHubRequests[0], _requestID);
-			var _ghRequestObject = _system.__activeGitHubRequests[1][_ghRequestIndex];
+			var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
 			
 			// Set Status
 			_ghRequestObject.httpStatus = async_load[? "http_status"];
@@ -73,22 +69,19 @@ if (array_contains(_system.__activeRequests[0], async_load[? "id"]))
 		if (ds_exists(_requestObject.headerMap, ds_type_map)) ds_map_destroy(_requestObject.headerMap);
 		
 		// Delete From Active Requests
-		array_delete(_system.__activeRequests[0], _requestIndex, 1);
-		array_delete(_system.__activeRequests[1], _requestIndex, 1);
+		variable_struct_remove(_system.__activeRequests, _requestID);
 		
 		// Get GitHub Request
-		if (array_contains(_system.__activeGitHubRequests[0], _requestID))
+		if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
 		{
 			// Get GitHub Request Object
-			var _ghRequestIndex = array_get_index(_system.__activeGitHubRequests[0], _requestID);
-			var _ghRequestObject = _system.__activeGitHubRequests[1][_ghRequestIndex];
+			var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
 			
 			// Parse The Incoming JSON
 			if (async_load[? "http_status"] != 204) _ghRequestObject.parseResult(_requestObject.result);
 			
 			// Delete From Active GitHub Requests
-			array_delete(_system.__activeGitHubRequests[0], _ghRequestIndex, 1);
-			array_delete(_system.__activeGitHubRequests[1], _ghRequestIndex, 1);
+			variable_struct_remove(_system.__activeGitHubRequests, _requestID);
 		}
 		
 		//show_debug_message(async_load[? "result"]);

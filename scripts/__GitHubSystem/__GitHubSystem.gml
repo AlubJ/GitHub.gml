@@ -12,8 +12,8 @@ function __GitHubSystem()
 		__GitHubTrace("GitHub.gml implemented by Alun Jones. v" + GITHUB_GML_VERSION + " - " + GITHUB_GML_DATE);
 		
 		// These are to keep track of active requests because GameMakers async handling is bad
-		__activeRequests = [[], []];
-		__activeGitHubRequests = [[], []];
+		__activeRequests = {  };
+		__activeGitHubRequests = {  };
 	}
 	
 	return _system;
