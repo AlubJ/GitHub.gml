@@ -40,6 +40,7 @@
     {"id":{"name":"__GitHubSystem","path":"scripts/__GitHubSystem/__GitHubSystem.yy",},},
     {"id":{"name":"__GitHubTrace","path":"scripts/__GitHubTrace/__GitHubTrace.yy",},},
     {"id":{"name":"__GitHubWarn","path":"scripts/__GitHubWarn/__GitHubWarn.yy",},},
+    {"id":{"name":"__GMColorToHexString","path":"scripts/__GMColorToHexString/__GMColorToHexString.yy",},},
     {"id":{"name":"__StructToDSMap","path":"scripts/__StructToDSMap/__StructToDSMap.yy",},},
     {"id":{"name":"GitHub","path":"scripts/GitHub/GitHub.yy",},},
     {"id":{"name":"GitHubIssue","path":"scripts/GitHubIssue/GitHubIssue.yy",},},

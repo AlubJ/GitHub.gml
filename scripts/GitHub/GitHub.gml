@@ -905,6 +905,285 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Issue Labels
+	
+	/// @func getIssueLabels(owner, repo, issueID, [perPage], [page])
+	/// @desc Get an issue's labels.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The issue ID.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#list-labels-for-an-issue
+	static getIssueLabels = function(_owner, _repo, _issueID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/labels{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func addIssueLabels(owner, repo, issueID, labels)
+	/// @desc Get an issue's labels.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The issue ID.
+	/// @arg {Array.String} labels Array of labels to add to the issue.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#add-labels-to-an-issue
+	static addIssueLabels = function(_owner, _repo, _issueID, _labels)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/labels", "POST", _header, $"\{\"labels\":{json_stringify(_labels)}\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func setIssueLabels(owner, repo, issueID, labels)
+	/// @desc Set an issue's labels.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The issue ID.
+	/// @arg {Array.String} labels Array of labels to set to the issue.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#set-labels-for-an-issue
+	static setIssueLabels = function(_owner, _repo, _issueID, _labels)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/labels", "PUT", _header, $"\{\"labels\":{json_stringify(_labels)}\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func removeAllIssueLabels(owner, repo, issueID)
+	/// @desc Set an issue's labels.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The issue ID.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#remove-all-labels-from-an-issue
+	static removeAllIssueLabels = function(_owner, _repo, _issueID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/labels", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func removeIssueLabel(owner, repo, issueID, labelName)
+	/// @desc Set an issue's labels.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The issue ID.
+	/// @arg {String} labelName The label name to remove.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#remove-a-label-from-an-issue
+	static removeIssueLabel = function(_owner, _repo, _issueID, _labelName)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/labels/{_labelName}", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getLabels(owner, repo, [perPage], [page])
+	/// @desc Get a repository's labels.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#list-labels-for-a-repository
+	static getLabels = function(_owner, _repo, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/labels{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func createLabel(owner, repo, name, [color], [description])
+	/// @desc Create a new label for a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} name The name of the new label.
+	/// @arg {Constant.Color} [color] The color of the new label.
+	/// @arg {String} [description] The description of the new label.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#create-a-label
+	static createLabel = function(_owner, _repo, _name, _color = undefined, _description = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create body struct
+		var _bodyStruct = {  };
+		_bodyStruct[$ "name"] = _name;
+		
+		// Color and description
+		if (_color != undefined) _bodyStruct[$ "color"] = __GMColorToHexString(_color);
+		if (_description != undefined) _bodyStruct[$ "description"] = _description;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/labels", "POST", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getLabel(owner, repo, labelName)
+	/// @desc Get a repository label by name.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} labelName The label name to remove.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#get-a-label
+	static getLabel = function(_owner, _repo, _labelName)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/labels/{_labelName}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateLabel(owner, repo, name, [newName], [color], [description])
+	/// @desc Update an existing label for a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} name The name of the label.
+	/// @arg {String} [newName] The new name of the label.
+	/// @arg {Constant.Color} [color] The new color of the label.
+	/// @arg {String} [description] The new description of the label.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#update-a-label
+	static createLabel = function(_owner, _repo, _name, _newName = undefined, _color = undefined, _description = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create body struct
+		var _bodyStruct = {  };
+		
+		// Color and description
+		if (_newName != undefined) _bodyStruct[$ "new_name"] = _newName;
+		if (_color != undefined) _bodyStruct[$ "color"] = __GMColorToHexString(_color);
+		if (_description != undefined) _bodyStruct[$ "description"] = _description;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/labels/{_name}", "PATCH", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteLabel(owner, repo, labelName)
+	/// @desc Delete a repository label by name.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} labelName The label name to remove.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#delete-a-label
+	static deleteLabel = function(_owner, _repo, _labelName)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/labels/{_labelName}", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getIssueMilestoneLabels(owner, repo, milestoneID, [perPage], [page])
+	/// @desc Get an issues labels in a milestone.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} milestoneID The milestone number.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/labels#list-labels-for-issues-in-a-milestone
+	static getIssueMilestoneLabels = function(_owner, _repo, _milestoneID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined) _queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined) _queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/milestones/{_milestoneID}/labels{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Helper
 	
 	/// @func __createDefaultHeaders()
