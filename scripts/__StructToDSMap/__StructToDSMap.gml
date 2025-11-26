@@ -2,6 +2,7 @@
 
 /// @func __StructToDSMap(struct)
 /// @desc Convert a struct to a DS Map. Only converts the root layer.
+/// @ignore
 function __StructToDSMap(_struct)
 {
 	if (is_struct(_struct))

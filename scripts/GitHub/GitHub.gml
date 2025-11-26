@@ -830,6 +830,7 @@ function GitHub(_authToken = undefined) constructor
 	/// @func __createDefaultHeaders()
 	/// @desc Creates default header.
 	/// @return {Struct}
+	/// @ignore
 	static __createDefaultHeaders = function()
 	{
 		// Create Header

@@ -1,5 +1,6 @@
 __GitHubSystem();
 
+/// @ignore
 function __GitHubSystem()
 {
 	static _system = undefined;

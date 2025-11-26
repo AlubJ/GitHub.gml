@@ -1,5 +1,6 @@
 // Feather disable all
 
+/// @ignore
 function __GitHubTrace()
 {
     var _string = "GitHub.gml: ";

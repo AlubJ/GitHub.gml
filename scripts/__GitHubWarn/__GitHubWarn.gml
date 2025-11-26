@@ -1,5 +1,6 @@
 // Feather disable all
 
+/// @ignore
 function __GitHubWarn(_string)
 {
     if (GITHUB_GML_RUNNING_FROM_IDE)
