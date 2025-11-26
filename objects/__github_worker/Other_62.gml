@@ -77,8 +77,18 @@ if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 			// Get GitHub Request Object
 			var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
 			
-			// Parse The Incoming JSON
+			// Parse The Incoming JSON, a status code of 204 means there is nothing to parse
 			if (async_load[? "http_status"] != 204) _ghRequestObject.parseResult(_requestObject.result);
+			
+			// Now we need to run the callbacks
+			if (async_load[? "http_status"] >= 200 && async_load[? "http_status"] <= 299)
+			{
+				if (is_method(_ghRequestObject.callback)) _ghRequestObject.callback(_ghRequestObject.result, _ghRequestObject);
+			}
+			else if (async_load[? "http_status"] >= 400 && async_load[? "http_status"] <= 599)
+			{
+				if (is_method(_ghRequestObject.errorback)) _ghRequestObject.errorback(_ghRequestObject.result, _ghRequestObject);
+			}
 			
 			// Delete From Active GitHub Requests
 			variable_struct_remove(_system.__activeGitHubRequests, _requestID);

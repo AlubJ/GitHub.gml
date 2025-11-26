@@ -4,7 +4,16 @@ var _key = buffer_read(_buffer, buffer_text);
 buffer_delete(_buffer);
 
 github = new GitHub(_key);
-request = github.getLatestRelease("AlubJ", "BactaTank-Classic");
+request = github.getLatestRelease("AlubJ", "BactaTank-Clussic");
+
+request.setCallback(function (_requestBody, _request) {
+	show_debug_message(_requestBody);
+});
+
+request.setErrorback(function (_requestBody, _request) {
+	show_error("Something went wrong :(", true);
+});
+
 requestComplete = false;
 
 //request1 = new HTTPGetFile("https://github.com/AlubJ/BactaTank-Classic/releases/download/v0.3.3/BactaTank-Classic-v0.3.3-VM.zip", "BactaTank-Classic-v0.3.3-VM.zip");

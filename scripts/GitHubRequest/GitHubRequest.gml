@@ -12,6 +12,8 @@ function GitHubRequest(_requestID) constructor
 	contentLength = 0;
 	sizeDownloaded = 0;
 	result = "null";
+	callback = undefined;
+	errorback = undefined;
 	
 	// Push Request To Active Requests
 	__GitHubSystem().__activeGitHubRequests[$ requestID] = self;
@@ -23,5 +25,23 @@ function GitHubRequest(_requestID) constructor
 	static parseResult = function(_result)
 	{
 		result = json_parse(_result);
+	}
+	
+	/// @func setCallback(method)
+	/// @desc Sets a callback method that will be executed upon a successful request.
+	/// @arg {Function} method The method to be executed, requires two arguments, the body struct and the request object.
+	/// @returns {Any}
+	static setCallback = function(_method)
+	{
+		callback = _method;
+	}
+	
+	/// @func setErrorback(method)
+	/// @desc Sets an errorback method that will be executed upon a unsuccessful request.
+	/// @arg {Function} method The method to be executed, requires two arguments, the body struct and the request object.
+	/// @returns {Any}
+	static setErrorback = function(_method)
+	{
+		errorback = _method;
 	}
 }
