@@ -2,6 +2,7 @@ if (request.httpStatus != 204 && request.httpStatus != undefined && !requestComp
 {
 	show_debug_message($"{json_stringify(request.result, true)}");
 	requestComplete = true;
+	show_debug_message(request.httpStatus);
 }
 else
 {

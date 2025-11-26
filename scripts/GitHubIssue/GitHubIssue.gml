@@ -1,6 +1,6 @@
 // Feather disable all
 
-/// @func GitHubIssue(title, [body], [assignee], [milestone], [labels], [assignees], [type])
+/// @func GitHubIssue(title, [body], [assignee], [milestone], [labels], [assignees], [type], [state], [stateReason])
 /// @desc Constructor for creating a GitHub Issue.
 /// @arg {String} title The title for the issue (required when creating a new issue).
 /// @arg {String} [body] The body for the issue.
