@@ -13,11 +13,11 @@ function GitHub(_authToken = undefined) constructor
 	if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
 	
 	// Create early destruction detection timesource, essentially a "keep alive" to make sure the worker exists at all times when GitHub exists
-	__timesource = time_source_create(time_source_game, 1, time_source_units_seconds, function() {
+	static __timesource = time_source_create(time_source_game, 1, time_source_units_seconds, function() {
 		if (instance_number(__github_worker) > 1) instance_destroy(__github_worker);
 		if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
 	}, [], -1, );
-	time_source_start(__timesource);
+	if (time_source_get_state(__timesource) != time_source_state_active) time_source_start(__timesource);
 	
 	#region Releases
 	
