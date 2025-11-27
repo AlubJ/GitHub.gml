@@ -9,7 +9,7 @@ function __GitHubSystem()
 	_system = {  };
 	with (_system)
 	{
-		__GitHubTrace("GitHub.gml implemented by Alun Jones. v" + GITHUB_GML_VERSION + " - " + GITHUB_GML_DATE);
+		__GitHubTrace("GitHub.gml implemented by Alun Jones with help from Juju Adams. v" + GITHUB_GML_VERSION + " - " + GITHUB_GML_DATE);
 		
 		// These are to keep track of active requests because GameMakers async handling is bad
 		__activeRequests = {  };
@@ -31,6 +31,14 @@ function __GitHubSystem()
 		// Web-flow
 		__authenticationSuccessHTML = "Please return to the game.";
 		__authenticationErrorHTML = "Error!";
+		
+		// Create worker
+		__GitHubEnsureInstance();
+		
+		// Create early destruction detection timesource, essentially a "keep alive" to make sure the worker exists at all times when GitHub exists
+		time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, function() {
+			__GitHubEnsureInstance();
+		}, [], -1));
 	}
 	
 	return _system;

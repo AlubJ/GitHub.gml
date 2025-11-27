@@ -9,15 +9,8 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	__GitHubSystem().__clientID = _clientID;
 	__GitHubSystem().__clientSecret = _clientSecret;
 	
-	// Create __github_controller if it doesn't exist
-	if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
-	
-	// Create early destruction detection timesource, essentially a "keep alive" to make sure the worker exists at all times when GitHub exists
-	static __timesource = time_source_create(time_source_game, 1, time_source_units_seconds, function() {
-		if (instance_number(__github_worker) > 1) instance_destroy(__github_worker);
-		if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
-	}, [], -1, );
-	if (time_source_get_state(__timesource) != time_source_state_active) time_source_start(__timesource);
+	// Just make sure the worker exists if this function is run right as the game starts
+	__GitHubEnsureInstance();
 	
 	/// @func requestAuthenticationViaWebPage()
 	/// @desc Request OAuth user authentication via a web page.

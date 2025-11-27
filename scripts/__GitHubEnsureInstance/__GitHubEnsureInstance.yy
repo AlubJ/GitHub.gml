@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"__GitHubConfig",
+  "%Name":"__GitHubEnsureInstance",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__GitHubConfig",
+  "name":"__GitHubEnsureInstance",
   "parent":{
-    "name":"GitHub.GML",
-    "path":"folders/GitHub.GML.yy",
+    "name":"(System)",
+    "path":"folders/GitHub.GML/(System).yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -38,6 +38,7 @@
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"__GitHubConfig","path":"scripts/__GitHubConfig/__GitHubConfig.yy",},},
     {"id":{"name":"__GitHubConstants","path":"scripts/__GitHubConstants/__GitHubConstants.yy",},},
+    {"id":{"name":"__GitHubEnsureInstance","path":"scripts/__GitHubEnsureInstance/__GitHubEnsureInstance.yy",},},
     {"id":{"name":"__GitHubError","path":"scripts/__GitHubError/__GitHubError.yy",},},
     {"id":{"name":"__GitHubSystem","path":"scripts/__GitHubSystem/__GitHubSystem.yy",},},
     {"id":{"name":"__GitHubTrace","path":"scripts/__GitHubTrace/__GitHubTrace.yy",},},

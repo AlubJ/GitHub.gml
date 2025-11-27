@@ -4,7 +4,7 @@
 #macro GITHUB_GML_API_VERSION	"2022-11-28"
 
 // The GitHub API requires a user agent to be set when making requests to the API endpoints
-#macro GITHUB_GML_USER_AGENT	"Alub"
+#macro GITHUB_GML_USER_AGENT	"GitHub.gml/v0.2.0"
 
 // The maximum amount of times that GitHubOAuth can poll the authentication request
 #macro GITHUB_GML_OAUTH_MAX_POLLS			20
