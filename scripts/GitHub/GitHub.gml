@@ -1507,6 +1507,8 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region GISTS
+	
 	#region Gists
 	
 	/// @func getGistsCreatedByMe([since], [perPage], [page])
@@ -1953,6 +1955,8 @@ function GitHub(_authToken = undefined) constructor
 		// Return Request
 		return _githubRequest;
 	}
+	
+	#endregion
 	
 	#endregion
 	
