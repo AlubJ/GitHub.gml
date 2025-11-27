@@ -142,6 +142,14 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		__GitHubSystem().__authenticationErrorback = _callback;
 	}
 	
+	/// @func hasAuthentication()
+	/// @desc Returns wether we have user authentication or not.
+	/// @returns {Bool}
+	static hasAuthentication = function()
+	{
+		return __GitHubSystem().__currentUserAuthToken != undefined;
+	}
+	
 	/// @func getAuthenticationToken()
 	/// @desc Returns back the current authentication token.
 	/// @returns {String}
