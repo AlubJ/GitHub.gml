@@ -3,34 +3,37 @@ var _buffer = buffer_load("api.key");
 var _key = buffer_read(_buffer, buffer_text);
 buffer_delete(_buffer);
 
-github = new GitHub(_key);
-var _gist = new GitHubGist("I created this in GameMaker", false);
-_gist.addFile("test.txt", "This is a test of GitHub.gml");
+var _buffer = buffer_load("clientID.key");
+var _clientID = buffer_read(_buffer, buffer_text);
+buffer_delete(_buffer);
 
-request = github.getUserGists("AlubJ");
+var _buffer = buffer_load("clientSecret.key");
+var _clientSecret = buffer_read(_buffer, buffer_text);
+buffer_delete(_buffer);
 
-request.setCallback(function (_requestBody, _request) {
-	show_debug_message(_requestBody);
+// Create OAuth
+oauth = new GitHubOAuth(_clientID);
+
+// Create auth request
+oauthRequest = oauth.requestAuthentication(["repo", "read:user"]);
+
+// Set the request callback
+oauthRequest.setCallback(function (_resultBody, _request)
+{
+	// Check that the request has made it through
+	if (_request.httpStatus == 200)
+	{
+		// Show debug message to login
+		show_debug_message($"Please visit: \"{_resultBody.verification_uri}\" and use the code: \"{_resultBody.user_code}\". This code will expire in {_resultBody.expires_in} seconds.");
+		
+		// Set our authentication callback (runs when authentication is successful)
+		oauth.setAuthenticationCallback(function(_resultBody, _request) {
+			show_message(_resultBody);
+		});
+		
+		// Now we poll the authentication
+		oauth.pollAuthentication(_resultBody.device_code, _resultBody.interval + 1, 20);
+	}
 });
 
-request.setErrorback(function (_requestBody, _request) {
-	show_error(_requestBody, true);
-});
-
-requestComplete = false;
-
-//request1 = new HTTPGetFile("https://github.com/AlubJ/BactaTank-Classic/releases/download/v0.3.3/BactaTank-Classic-v0.3.3-VM.zip", "BactaTank-Classic-v0.3.3-VM.zip");
-
-//release = new GitHubRelease();
-//release.tagName = "v3.3.0";
-//release.name = "This release was updated in GameMaker!";
-//release.body = "I updated this release entirely in GML, without accessing GitHub from the browser at all!";
-//230525467
-//request1 = github.createRelease("AlubJ", "TTGMT", release);
-
-//request1 = github.uploadReleaseAsset("AlubJ", "TTGMT", 230525467, buffer_load("test.zip"), "application/zip", "uploaad3.zip");
-//request1 = github.getReleaseAssets("AlubJ", "TTGMT", 230525467);
-//request1 = github.updateReleaseAsset("AlubJ", "TTGMT", 270747319, "newFilename.zip", "Windows Binary");
-//request1 = github.deleteReleaseAsset("AlubJ", "TTGMT", 270747847);
-//request1 = github.deleteRelease("AlubJ", "TTGMT", 230521461);
-//request1 = github.getReleaseByTag("AlubJ", "TTGMT", "v3.3.0");
+github = undefined;

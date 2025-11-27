@@ -1975,7 +1975,20 @@ function GitHub(_authToken = undefined) constructor
 		ds_map_add(_header, "Accept", "application/vnd.github+json");
 		ds_map_add(_header, "X-GitHub-Api-Version", GITHUB_GML_API_VERSION);
 		ds_map_add(_header, "User-Agent", GITHUB_GML_USER_AGENT);
-		if (__authToken != undefined) ds_map_add(_header, "Authorization", "Bearer " + __authToken);
+		
+		// Always default to the auth token given, otherwise we try to see if a user has authenticated.
+		if (__authToken != undefined)
+		{
+			ds_map_add(_header, "Authorization", "Bearer " + __authToken);
+		}
+		else
+		{
+			var _system = __GitHubSystem();
+			if (_system.__currentUserAuthToken != undefined) 
+			{
+				ds_map_add(_header, "Authorization", "Bearer " + _system.__currentUserAuthToken);
+			}
+		}
 		
 		// Return Header
 		return _header;
