@@ -22,7 +22,15 @@ function __GitHubSystem()
 		
 		// OAuth helpers
 		__clientID = undefined;
+		__clientSecret = undefined;
 		__deviceCode = undefined;
+		__authenticationCallback = undefined;
+		__authenticationErrorback = undefined;
+		__pollTimesource = undefined;
+		
+		// Web-flow
+		__authenticationSuccessHTML = "Please return to the game.";
+		__authenticationErrorHTML = "Error!";
 	}
 	
 	return _system;
