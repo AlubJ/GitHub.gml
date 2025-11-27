@@ -84,6 +84,7 @@ if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 			if (async_load[? "http_status"] >= 200 && async_load[? "http_status"] <= 299)
 			{
 				if (is_method(_ghRequestObject.callback)) _ghRequestObject.callback(_ghRequestObject.result, _ghRequestObject);
+				if (is_method(_ghRequestObject.__specialCallback)) _ghRequestObject.__specialCallback(_ghRequestObject.result, _ghRequestObject);
 			}
 			else if (async_load[? "http_status"] >= 400 && async_load[? "http_status"] <= 599)
 			{

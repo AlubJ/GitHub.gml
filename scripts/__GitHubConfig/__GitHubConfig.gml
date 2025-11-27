@@ -5,3 +5,9 @@
 
 // The GitHub API requires a user agent to be set when making requests to the API endpoints
 #macro GITHUB_GML_USER_AGENT	"Alub"
+
+// The maximum amount of times that GitHubOAuth can poll the authentication request
+#macro GITHUB_GML_OAUTH_MAX_POLLS			20
+
+// The maximum amount of time in seconds that GitHubOAuth can poll the authentication request, the minimum should be whatever the OAuth request sends back.
+#macro GITHUB_GML_OAUTH_MAX_POLL_INTERVAL	60

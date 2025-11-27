@@ -14,6 +14,15 @@ function __GitHubSystem()
 		// These are to keep track of active requests because GameMakers async handling is bad
 		__activeRequests = {  };
 		__activeGitHubRequests = {  };
+		
+		// Current user authorization token
+		__currentUserAuthToken = undefined;
+		__currentUserTokenType = undefined;
+		__currentUserTokenScope = undefined;
+		
+		// OAuth helpers
+		__clientID = undefined;
+		__deviceCode = undefined;
 	}
 	
 	return _system;
