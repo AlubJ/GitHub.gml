@@ -14,10 +14,6 @@ if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 	// Set Status
 	_requestObject.status = async_load[? "status"];
 	
-	var array = [];
-	ds_map_keys_to_array(async_load, array);
-	show_debug_message(array);
-	
 	// Get GitHub Request and Set Its Status
 	if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
 	{
