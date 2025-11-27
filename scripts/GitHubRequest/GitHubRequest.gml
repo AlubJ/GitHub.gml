@@ -34,6 +34,7 @@ function GitHubRequest(_requestID) constructor
 	static setCallback = function(_method)
 	{
 		callback = _method;
+		return self;
 	}
 	
 	/// @func setErrorback(method)
@@ -43,5 +44,6 @@ function GitHubRequest(_requestID) constructor
 	static setErrorback = function(_method)
 	{
 		errorback = _method;
+		return self;
 	}
 }

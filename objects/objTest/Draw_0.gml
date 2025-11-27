@@ -1,1 +1,0 @@
-draw_text(12, 12, json_stringify(__GitHubSystem().__activeRequests, true));

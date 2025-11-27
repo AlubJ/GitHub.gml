@@ -15,7 +15,7 @@
     {"$GMFolder":"","%Name":"GitHub Constructors","folderPath":"folders/GitHub.GML/GitHub Constructors.yy","name":"GitHub Constructors","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Supplementary Scripts","folderPath":"folders/GitHub.GML/Supplementary Scripts.yy","name":"Supplementary Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Test Cases","folderPath":"folders/Test Cases.yy","name":"Test Cases","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[],
@@ -34,7 +34,7 @@
   "name":"GitHub.gml",
   "resources":[
     {"id":{"name":"__github_worker","path":"objects/__github_worker/__github_worker.yy",},},
-    {"id":{"name":"objTest","path":"objects/objTest/objTest.yy",},},
+    {"id":{"name":"objAuthentication","path":"objects/objAuthentication/objAuthentication.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"__GitHubConfig","path":"scripts/__GitHubConfig/__GitHubConfig.yy",},},
     {"id":{"name":"__GitHubConstants","path":"scripts/__GitHubConstants/__GitHubConstants.yy",},},

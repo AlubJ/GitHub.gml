@@ -1953,6 +1953,28 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region User
+	
+	/// @func getAuthenticatedUser()
+	/// @desc Get the currently authenticated user.
+	/// Documentation: https://docs.github.com/en/rest/users/users#get-the-authenticated-user
+	static getAuthenticatedUser = function()
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}user", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Other
 	
 	/// @func setAuthenticationToken(authToken)
