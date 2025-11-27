@@ -1,6 +1,6 @@
 // Feather disable all
 
-if (async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
+if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 {
 	var _type = async_load[? "type"];
 	if (_type == network_type_connect)
@@ -53,6 +53,10 @@ if (async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 					_system.__currentUserAuthToken = _resultBody.access_token;
 					_system.__currentUserTokenType = _resultBody.token_type;
 					_system.__currentUserTokenScope = string_split(_resultBody.scope, ",");
+					
+					// Destroy the network
+					network_destroy(__server);
+					__server = undefined;
 					
 					// Run the poll callback
 					if (_system.__authenticationCallback != undefined)

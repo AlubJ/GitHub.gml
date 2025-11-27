@@ -25,6 +25,16 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 	/// @returns {Any}
 	static requestAuthenticationViaWebPage = function(_scope)
 	{
+		// Ensure server does not exist
+		if (__github_worker.__server != undefined)
+		{
+			__GitHubWarn("requestAuthenticationViaWebPage: Server is already running, ensure there is not another web-flow authentication in progress.")
+		}
+		
+		// Create the server
+		__github_worker.__server = network_create_server_raw(network_socket_tcp, GITHUB_GML_LOCALHOST_PORT, 1);
+		
+		// Open the URL
 		url_open($"{GITHUB_GML_ROOT_OAUTH_URL}oauth/authorize?client_id={__GitHubSystem().__clientID}&scope={__constructScopeString(_scope)}");
 	}
 	
