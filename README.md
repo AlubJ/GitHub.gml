@@ -5,6 +5,9 @@ A wrapper for the GitHub REST API in GameMaker.
 This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please see below for the implemented endpoints.
 
 # Implemented endpoints
+- [x] Gists
+    - [x] Gists
+    - [x] comments
 - [ ] Issues
     - [x] Assignees
     - [x] Comments
@@ -40,7 +43,6 @@ This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please 
 - [ ] Deployments
 - [ ] Emojis
 - [ ] Enterprise teams
-- [ ] Gists
 - [ ] Git database
 - [ ] Gitignore
 - [ ] Interactions

@@ -566,7 +566,7 @@ function GitHub(_authToken = undefined) constructor
 		return _githubRequest;
 	}
 	
-	/// @func createIssueComment(owner, repo, issueID, _body)
+	/// @func createIssueComment(owner, repo, issueID, body)
 	/// @desc Create an issue comment in a repository.
 	/// @arg {String} owner The owner of the repo.
 	/// @arg {String} repo The repository name.
@@ -1835,6 +1835,117 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create Request
 		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}users/{_user}/gists{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
+	#region Gist Comments
+	
+	/// @func getGistComments(gistID, [perPage], [page])
+	/// @desc Get a list of a gists comments.
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/comments#list-gist-comments
+	static getGistComments = function(_gistID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/comments{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func createGistComment(gistID, body)
+	/// @desc Create an issue comment in a repository.
+	/// @arg {Real} gistID The ID of the gist.
+	/// @arg {String} body The body of the gist comment.
+	/// Documentation: https://docs.github.com/en/rest/gists/comments#create-a-gist-comment
+	static createGistComment = function(_gistID, _body)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/comments", "POST", _header, $"\{\"body\": \"{_body}\"\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getGistComment(gistID, commentID)
+	/// @desc Get a list of a gists comments.
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {Real} commentID The ID of the comment.
+	/// Documentation: https://docs.github.com/en/rest/gists/comments#get-a-gist-comment
+	static getGistComment = function(_gistID, _commentID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/comments/{_commentID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateGistComment(gistID, commentID, body)
+	/// @desc Create an issue comment in a repository.
+	/// @arg {Real} gistID The ID of the gist.
+	/// @arg {Real} commentID The ID of the comment.
+	/// @arg {String} body The body of the gist comment.
+	/// Documentation: https://docs.github.com/en/rest/gists/comments#update-a-gist-comment
+	static updateGistComment = function(_gistID, _commentID, _body)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/comments/{_commentID}", "PATCH", _header, $"\{\"body\": \"{_body}\"\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteGistComment(gistID, commentID)
+	/// @desc Get a list of a gists comments.
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {Real} commentID The ID of the comment.
+	/// Documentation: https://docs.github.com/en/rest/gists/comments#delete-a-gist-comment
+	static deleteGistComment = function(_gistID, _commentID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/comments/{_commentID}", "DELETE", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);
