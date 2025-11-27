@@ -15,10 +15,6 @@ function GitHubRequest(_requestID) constructor
 	callback = undefined;
 	errorback = undefined;
 	
-	// Special Callbacks
-	__specialCallback = undefined;
-	__specialCallbackArgs = undefined;
-	
 	// Push Request To Active Requests
 	__GitHubSystem().__activeGitHubRequests[$ requestID] = self;
 	

@@ -24,6 +24,8 @@ function __GitHubSystem()
 		__clientID = undefined;
 		__clientSecret = undefined;
 		__deviceCode = undefined;
+		__authenticationCallback = undefined;
+		__authenticationErrorback = undefined;
 	}
 	
 	return _system;

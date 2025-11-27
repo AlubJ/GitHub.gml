@@ -28,7 +28,8 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 		// Ensure server does not exist
 		if (__github_worker.__server != undefined)
 		{
-			__GitHubWarn("requestAuthenticationViaWebPage: Server is already running, ensure there is not another web-flow authentication in progress.")
+			__GitHubWarn("requestAuthenticationViaWebPage: Server is already running, ensure there is not another web-flow authentication in progress.");
+			return;
 		}
 		
 		// Create the server
@@ -44,6 +45,13 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 	/// @returns {Struct.GitHubRequest}
 	static requestAuthentication = function(_scope)
 	{
+		// Ensure server does not exist
+		if (__GitHubSystem().__pollTimesource != undefined)
+		{
+			__GitHubWarn("requestAuthentication: Request is already in progress, ");
+			return;
+		}
+		
 		// Create Header
 		var _header = __createDefaultHeaders();
 		
@@ -94,6 +102,15 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 		__GitHubSystem().__authenticationCallback = _callback;
 	}
 	
+	/// @func setAuthenticationErrorback()
+	/// @desc Set the authentication errorback which will be executed when the authentication is unsuccessful.
+	/// @arg {Function} callback The method to execute.
+	/// @returns {Any}
+	static setAuthenticationErrorback = function(_callback)
+	{
+		__GitHubSystem().__authenticationErrorback = _callback;
+	}
+	
 	/// @func getAuthenticationToken()
 	/// @desc Returns back the current authentication token.
 	/// @returns {String}
@@ -142,8 +159,8 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 		// Create GitHub Request
 		_system.__pollRequest = new GitHubRequest(_request.requestID);
 		
-		// Create the special callback
-		_system.__pollRequest.__specialCallback = function (_resultBody, _request)
+		// Create the callback
+		_system.__pollRequest.setCallback(function (_resultBody, _request)
 		{
 			// Check that the response has come back clean and that there is no error.
 			if (_request.httpStatus == 200 && !variable_struct_exists(_resultBody, "error"))
@@ -159,6 +176,7 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 				// Clear timesources
 				time_source_stop(_system.__pollTimesource);
 				time_source_destroy(_system.__pollTimesource);
+				_system.__pollTimesource = undefined;
 				
 				// Run the poll callback
 				if (_system.__authenticationCallback != undefined)
@@ -166,7 +184,25 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 					_system.__authenticationCallback(_resultBody, _request);
 				}
 			}
-		};
+		});
+		
+		// Create the errorback
+		_system.__pollRequest.setErrorback(function (_resultBody, _request)
+		{
+			// Get system
+			var _system = __GitHubSystem();
+			
+			// Clear timesources
+			time_source_stop(_system.__pollTimesource);
+			time_source_destroy(_system.__pollTimesource);
+			_system.__pollTimesource = undefined;
+			
+			// Run the poll errorback
+			if (_system.__authenticationErrorback != undefined)
+			{
+				_system.__authenticationErrorback(_resultBody, _request);
+			}
+		});
 	}
 	
 	/// @func __constructScopeString(scope)
