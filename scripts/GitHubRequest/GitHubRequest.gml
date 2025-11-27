@@ -29,7 +29,7 @@ function GitHubRequest(_requestID) constructor
 	
 	/// @func setCallback(method)
 	/// @desc Sets a callback method that will be executed upon a successful request.
-	/// @arg {Function} method The method to be executed, requires two arguments, the body struct and the request object.
+	/// @arg {Function} method The method to be executed, requires two arguments, the body struct and the request object [_resultBody, _requestObject].
 	/// @returns {Any}
 	static setCallback = function(_method)
 	{
@@ -39,7 +39,7 @@ function GitHubRequest(_requestID) constructor
 	
 	/// @func setErrorback(method)
 	/// @desc Sets an errorback method that will be executed upon a unsuccessful request.
-	/// @arg {Function} method The method to be executed, requires two arguments, the body struct and the request object.
+	/// @arg {Function} method The method to be executed, requires two arguments, the body struct and the request object [_resultBody, _requestObject].
 	/// @returns {Any}
 	static setErrorback = function(_method)
 	{
