@@ -4,14 +4,17 @@ var _key = buffer_read(_buffer, buffer_text);
 buffer_delete(_buffer);
 
 github = new GitHub(_key);
-request = github.getLatestRelease("AlubJ", "BactaTank-Clussic");
+var _gist = new GitHubGist("I created this in GameMaker", false);
+_gist.addFile("test.txt", "This is a test of GitHub.gml");
+
+request = github.getUserGists("AlubJ");
 
 request.setCallback(function (_requestBody, _request) {
 	show_debug_message(_requestBody);
 });
 
 request.setErrorback(function (_requestBody, _request) {
-	show_error("Something went wrong :(", true);
+	show_error(_requestBody, true);
 });
 
 requestComplete = false;

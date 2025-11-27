@@ -19,6 +19,8 @@ function GitHub(_authToken = undefined) constructor
 	}, [], -1, );
 	if (time_source_get_state(__timesource) != time_source_state_active) time_source_start(__timesource);
 	
+	#region RELEASES
+	
 	#region Releases
 	
 	/// @func getLatestRelease(owner, repo)
@@ -302,6 +304,10 @@ function GitHub(_authToken = undefined) constructor
 	}
 	
 	#endregion
+	
+	#endregion
+	
+	#region ISSUES
 	
 	#region Assignees
 	
@@ -1489,6 +1495,346 @@ function GitHub(_authToken = undefined) constructor
 		
 		// Create Request
 		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/timeline{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
+	#endregion
+	
+	#region Gists
+	
+	/// @func getGistsCreatedByMe([since], [perPage], [page])
+	/// @desc Get all the gists created by the authenticated user, if no authorization is provided it returns all public gists.
+	/// @arg {String} [since] Only show results that were updated after the given time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#list-gists-for-the-authenticated-user
+	static getGistsCreatedByMe = function(_since = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func createGist(gist)
+	/// @desc Create a new gist to the currently authorized user.
+	/// @arg {Struct.GitHubGist} gist The gist struct.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#create-a-gist
+	static createGist = function(_gist)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists", "POST", _header, _gist.generateJSON());
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getPublicGists([since], [perPage], [page])
+	/// @desc Get a list of public gists.
+	/// @arg {String} [since] Only show results that were updated after the given time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#list-public-gists
+	static getPublicGists = function(_since = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/public{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getStarredGists([since], [perPage], [page])
+	/// @desc Get a list of gists starred by the authenticated user.
+	/// @arg {String} [since] Only show results that were updated after the given time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#list-starred-gists
+	static getStarredGists = function(_since = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/starred{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getGist(gistID)
+	/// @desc Get a gist from a gist ID.
+	/// @arg {String} gistID The ID of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#get-a-gist
+	static getGist = function(_gistID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateGist(gistID, gist)
+	/// @desc Update a gist that's owned by the current authenticated user.
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {Struct.GitHubGist} gist The gist struct.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#update-a-gist
+	static updateGist = function(_gistID, _gist)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}", "PATCH", _header, _gist.generateJSON());
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteGist(gistID)
+	/// @desc Delete a gist that's owned by the currently authenticated user.
+	/// @arg {String} gistID The ID of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#delete-a-gist
+	static deleteGist = function(_gistID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getGistCommits(gistID, [perPage], [page])
+	/// @desc Get a gists commits from a gist ID.
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#list-gist-commits
+	static getGistCommits = function(_gistID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/commits{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getGistForks(gistID, [perPage], [page])
+	/// @desc Get a gists forks from a gist ID.
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#list-gist-forks
+	static getGistForks = function(_gistID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/forks{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func forkGist(gistID)
+	/// @desc Fork a gist from a gist ID.
+	/// @arg {String} gistID The ID of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#fork-a-gist
+	static forkGist = function(_gistID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/forks", "POST", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func isGistStarred(gistID)
+	/// @desc Check if a gist is starred by the currently authenticated user.
+	/// @arg {String} gistID The ID of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#check-if-a-gist-is-starred
+	static isGistStarred = function(_gistID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/star", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func starGist(gistID)
+	/// @desc Star a gist by the currently authenticated user.
+	/// @arg {String} gistID The ID of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#star-a-gist
+	static starGist = function(_gistID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/star", "POST", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func unstarGist(gistID)
+	/// @desc Unstar a gist by the currently authenticated user.
+	/// @arg {String} gistID The ID of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#unstar-a-gist
+	static unstarGist = function(_gistID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/star", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getGistRevision(gistID, sha)
+	/// @desc Get a gist revision from the gist ID and sha
+	/// @arg {String} gistID The ID of the gist.
+	/// @arg {String} sha The sha of the gist.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#get-a-gist-revision
+	static isGistStarred = function(_gistID, _sha)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}gists/{_gistID}/{_sha}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getUserGists(user, [since], [perPage], [page])
+	/// @desc Get a list of gists by a given user.
+	/// @arg {String} user The username of the user to search.
+	/// @arg {String} [since] Only show results that were updated after the given time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/gists/gists#list-gists-for-a-user
+	static getUserGists = function(_user, _since = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}users/{_user}/gists{_queryParams}", "GET", _header, "");
 		
 		// Create GitHub Request
 		var _githubRequest = new GitHubRequest(_request.requestID);

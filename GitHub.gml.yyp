@@ -43,6 +43,7 @@
     {"id":{"name":"__GMColorToHexString","path":"scripts/__GMColorToHexString/__GMColorToHexString.yy",},},
     {"id":{"name":"__StructToDSMap","path":"scripts/__StructToDSMap/__StructToDSMap.yy",},},
     {"id":{"name":"GitHub","path":"scripts/GitHub/GitHub.yy",},},
+    {"id":{"name":"GitHubGist","path":"scripts/GitHubGist/GitHubGist.yy",},},
     {"id":{"name":"GitHubIssue","path":"scripts/GitHubIssue/GitHubIssue.yy",},},
     {"id":{"name":"GitHubRelease","path":"scripts/GitHubRelease/GitHubRelease.yy",},},
     {"id":{"name":"GitHubRequest","path":"scripts/GitHubRequest/GitHubRequest.yy",},},
