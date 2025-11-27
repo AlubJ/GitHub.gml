@@ -2,10 +2,12 @@
 
 /// @func GitHubOAuth(clientID)
 /// @desc Constructor for creating a new instance of GitHubOAuth.
-/// @arg {String} _clientID The client ID to use for authentication. 
-function GitHubOAuth(_clientID) constructor
+/// @arg {String} _clientID The client ID to use for authentication.
+/// @arg {String} _clientID The client secret to use for authentication. 
+function GitHubOAuth(_clientID, _clientSecret) constructor
 {
 	__GitHubSystem().__clientID = _clientID;
+	__GitHubSystem().__clientSecret = _clientSecret;
 	
 	// Create __github_controller if it doesn't exist
 	if (!instance_exists(__github_worker)) instance_create_depth(0, 0, 0, __github_worker);
@@ -17,8 +19,17 @@ function GitHubOAuth(_clientID) constructor
 	}, [], -1, );
 	if (time_source_get_state(__timesource) != time_source_state_active) time_source_start(__timesource);
 	
+	/// @func requestAuthenticationViaWebPage()
+	/// @desc Request OAuth user authentication via a web page.
+	/// @arg {Array.String} scope An array of authentication scopes.
+	/// @returns {Any}
+	static requestAuthenticationViaWebPage = function(_scope)
+	{
+		url_open($"{GITHUB_GML_ROOT_OAUTH_URL}oauth/authorize?client_id={__GitHubSystem().__clientID}&scope={__constructScopeString(_scope)}");
+	}
+	
 	/// @func requestAuthentication()
-	/// @desc Request OAuth user authentication.
+	/// @desc Request OAuth user authentication via the device flow.
 	/// @arg {Array.String} scope An array of authentication scopes.
 	/// @returns {Struct.GitHubRequest}
 	static requestAuthentication = function(_scope)

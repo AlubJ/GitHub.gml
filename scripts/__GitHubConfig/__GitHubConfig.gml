@@ -11,3 +11,7 @@
 
 // The maximum amount of time in seconds that GitHubOAuth can poll the authentication request, the minimum should be whatever the OAuth request sends back.
 #macro GITHUB_GML_OAUTH_MAX_POLL_INTERVAL	60
+
+// Port to connect on as part of the `.requestAuthenticationViaWebPage()` flow. This must match the callback URL entered whe creating your GitHub app.
+// e.g. Setting `GITHUB_GML_LOCALHOST_PORT` to `52499` means that you should use `http://localhost:52499/` for the callback URL.
+#macro GITHUB_GML_LOCALHOST_PORT  52499

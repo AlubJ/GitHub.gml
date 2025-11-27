@@ -22,6 +22,7 @@ function __GitHubSystem()
 		
 		// OAuth helpers
 		__clientID = undefined;
+		__clientSecret = undefined;
 		__deviceCode = undefined;
 	}
 	
