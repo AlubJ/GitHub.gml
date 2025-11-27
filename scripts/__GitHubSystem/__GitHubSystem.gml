@@ -26,6 +26,7 @@ function __GitHubSystem()
 		__deviceCode = undefined;
 		__authenticationCallback = undefined;
 		__authenticationErrorback = undefined;
+		__pollTimesource = undefined;
 	}
 	
 	return _system;

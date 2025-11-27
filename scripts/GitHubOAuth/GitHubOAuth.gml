@@ -2,9 +2,9 @@
 
 /// @func GitHubOAuth(clientID)
 /// @desc Constructor for creating a new instance of GitHubOAuth.
-/// @arg {String} _clientID The client ID to use for authentication.
-/// @arg {String} _clientID The client secret to use for authentication. 
-function GitHubOAuth(_clientID, _clientSecret) constructor
+/// @arg {String} clientID The client ID to use for authentication.
+/// @arg {String} [clientSecret] The client secret to use for authentication. 
+function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 {
 	__GitHubSystem().__clientID = _clientID;
 	__GitHubSystem().__clientSecret = _clientSecret;
@@ -26,9 +26,16 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 	static requestAuthenticationViaWebPage = function(_scope)
 	{
 		// Ensure server does not exist
-		if (__github_worker.__server != undefined)
+		if (__github_worker.__server != undefined || __GitHubSystem().__pollTimesource != undefined)
 		{
-			__GitHubWarn("requestAuthenticationViaWebPage: Server is already running, ensure there is not another web-flow authentication in progress.");
+			__GitHubWarn("requestAuthenticationViaWebPage: Request is already in progress, ensure there is not another authentication request in-progress.");
+			return;
+		}
+		
+		// Ensure client secret has been set.
+		if (__GitHubSystem().__clientSecret == undefined)
+		{
+			__GitHubError("requestAuthenticationViaWebPage: Client secret has not been set, please set this when constructing GitHubOAuth or set using setClientSecret().");
 			return;
 		}
 		
@@ -46,9 +53,9 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 	static requestAuthentication = function(_scope)
 	{
 		// Ensure server does not exist
-		if (__GitHubSystem().__pollTimesource != undefined)
+		if (__GitHubSystem().__pollTimesource != undefined || __github_worker.__server != undefined)
 		{
-			__GitHubWarn("requestAuthentication: Request is already in progress, ");
+			__GitHubWarn("requestAuthentication: Request is already in progress, ensure there is not another authentication request in-progress.");
 			return;
 		}
 		
@@ -91,6 +98,37 @@ function GitHubOAuth(_clientID, _clientSecret) constructor
 		
 		// Start the timesource
 		time_source_start(_system.__pollTimesource);
+	}
+	
+	/// @func cancelAuthentication()
+	/// @desc Cancels the current authentication request.
+	/// @returns {N/A}
+	static cancelAuthentication = function()
+	{
+		// Check server for an active web-flow authentication
+		if (__github_worker.__server != undefined)
+		{
+			// Destroy the network
+			network_destroy(__github_worker.__server);
+			__github_worker.__server = undefined;
+		}
+		
+		// Check the timesource for an active device-flow authentication
+		if (__GitHubSystem().__pollTimesource != undefined)
+		{
+			// Clear timesources
+			time_source_stop(_system.__pollTimesource);
+			time_source_destroy(_system.__pollTimesource);
+			_system.__pollTimesource = undefined;
+		}
+	}
+	
+	/// @func hasActiveRequest()
+	/// @desc Returns if there is an active authentication request in-progress.
+	/// @returns {Bool}
+	static hasActiveRequest = function()
+	{
+		return (__GitHubSystem().__pollTimesource != undefined || __github_worker.__server != undefined);
 	}
 	
 	/// @func setAuthenticationCallback()

@@ -33,7 +33,7 @@ if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 				
 			if ((_codePos > 0) && (_httpPos > 0) && (_httpPos > _codePos))
 			{
-				//We found the information we need, fire off a request to GitHub to get our accesst oken
+				//We found the information we need, fire off a request to GitHub to get our access token
 				var _codeEndPos = _codePos + string_length("GET /?code=");
 				var _code = string_copy(_string, _codeEndPos, _httpPos - _codeEndPos);
 				
