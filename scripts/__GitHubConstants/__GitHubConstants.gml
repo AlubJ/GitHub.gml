@@ -1,6 +1,6 @@
 // Feather disable all
 
-#macro GITHUB_GML_VERSION	"0.1.0"
+#macro GITHUB_GML_VERSION	"0.2.0"
 #macro GITHUB_GML_DATE		"2025-11-27"
 
 #macro GITHUB_GML_RUNNING_FROM_IDE (GM_build_type == "run")
