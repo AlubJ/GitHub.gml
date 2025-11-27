@@ -14,7 +14,7 @@ This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please 
     - [x] Labels
     - [x] Milestones
     - [x] Sub-issues
-    - [ ] Timeline
+    - [x] Timeline
 - [x] Releases
     - [x] Releases
     - [x] Release assets

@@ -1467,6 +1467,38 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Issue Timeline
+	
+	/// @func getIssueTimelineEvents(owner, repo, issueID, [perPage], [page])
+	/// @desc Get an issue's timeline events by its ID.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The ID of the issue.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/timeline#list-timeline-events-for-an-issue
+	static getIssueTimelineEvents = function(_owner, _repo, _issueID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/timeline{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Helper
 	
 	/// @func __createDefaultHeaders()
