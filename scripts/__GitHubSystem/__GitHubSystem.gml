@@ -27,6 +27,10 @@ function __GitHubSystem()
 		__authenticationCallback = undefined;
 		__authenticationErrorback = undefined;
 		__pollTimesource = undefined;
+		
+		// Web-flow
+		__authenticationSuccessHTML = "Please return to the game.";
+		__authenticationErrorHTML = "Error!";
 	}
 	
 	return _system;

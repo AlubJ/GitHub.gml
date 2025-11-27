@@ -173,6 +173,26 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		return __GitHubSystem().__currentUserTokenScope;
 	}
 	
+	/// @func setAuthenticationSuccessHTML(html)
+	/// @desc Set the web-flow success HTML which will be displayed in the browser when authentication is successful.
+	/// @arg {String} html The HTML to use.
+	/// @returns {N/A}
+	static setAuthenticationSuccessHTML = function(_html)
+	{
+		// Potentially risky business here.
+		__GitHubSystem().__authenticationSuccessHTML = _html;
+	}
+	
+	/// @func setAuthenticationErrorHTML(html)
+	/// @desc Set the web-flow error HTML which will be displayed in the browser when authentication is unsuccessful.
+	/// @arg {String} html The HTML to use.
+	/// @returns {N/A}
+	static setAuthenticationErrorHTML = function(_html)
+	{
+		// Potentially risky business here.
+		__GitHubSystem().__authenticationErrorHTML = _html;
+	}
+	
 	/// @func __pollAuthentication()
 	/// @desc Authentication poll for the timesource.
 	/// @ignore

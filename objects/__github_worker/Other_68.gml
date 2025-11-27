@@ -66,12 +66,12 @@ if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 				});
 				
 				var _status  = "200 OK";
-				var _content = "Please return to the game."; //TODO - Replace with a global value so the developer can define a web page to show
+				var _content = __GitHubSystem().__authenticationSuccessHTML;
 			}
 			else
 			{
 				var _status  = "403 Forbidden";
-				var _content = "Error!"; //TODO - Replace with a global value so the developer can define a web page to show
+				var _content = __GitHubSystem().__authenticationErrorHTML;
 			}
 			
 			//Send a response back to the browser
