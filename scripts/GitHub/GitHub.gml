@@ -1184,6 +1184,152 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Issue Milestones
+	
+	/// @func getMilestones(owner, repo, [state], [sort], [direction], [perPage], [page])
+	/// @desc Get a repository's milestones.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} [state] Issue state filter by "open", "closed" or "all".
+	/// @arg {String} [sort] Sort by "created" or "updated".
+	/// @arg {String} [direction] Direction to sort by, "asc" or "desc".
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/milestones#list-milestonese
+	static getMilestones = function(_owner, _repo, _state = undefined, _sort = undefined, _direction = undefined, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_state != undefined)		_queryParams += $"state={_state}&";
+		if (_sort != undefined)			_queryParams += $"sort={_sort}&";
+		if (_direction != undefined)	_queryParams += $"direction={_direction}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/milestones{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func createMilestone(owner, repo, title, [state], [description], [dueOn])
+	/// @desc Create a new milestone for a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {String} title The title of the new milestone.
+	/// @arg {String} [state] State of milestone "open" or "closed".
+	/// @arg {String} [description] Description of the milestone.
+	/// @arg {String} [dueOn] The due on time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// Documentation: https://docs.github.com/en/rest/issues/milestones#create-a-milestone
+	static createMilestone = function(_owner, _repo, _title, _state = undefined, _description = undefined, _dueOn = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create body struct
+		var _bodyStruct = {  };
+		_bodyStruct[$ "title"] = _title;
+		
+		// Other properties
+		if (_state != undefined) _bodyStruct[$ "state"] = _state;
+		if (_description != undefined) _bodyStruct[$ "description"] = _description;
+		if (_dueOn != undefined) _bodyStruct[$ "due_on"] = _dueOn;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/milestones", "POST", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getMilestone(owner, repo, milestoneID)
+	/// @desc Get a repository milestone.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} milestoneID The ID of the milestone.
+	/// Documentation: https://docs.github.com/en/rest/issues/milestones#get-a-milestone
+	static getMilestones = function(_owner, _repo, _milestoneID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/milestones/{_milestoneID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func updateMilestone(owner, repo, milestoneID, [title], [state], [description], [dueOn])
+	/// @desc Create a new milestone for a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} milestoneID The ID of the milestone.
+	/// @arg {String} [title] The new title of the milestone.
+	/// @arg {String} [state] State of milestone "open" or "closed".
+	/// @arg {String} [description] Description of the milestone.
+	/// @arg {String} [dueOn] The due on time. (`YYYY-MM-DDTHH:MM:SSZ`).
+	/// Documentation: https://docs.github.com/en/rest/issues/milestones#update-a-milestone
+	static updateMilestone = function(_owner, _repo, _milestoneID, _title = undefined, _state = undefined, _description = undefined, _dueOn = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create body struct
+		var _bodyStruct = {  };
+		
+		// Other properties
+		if (_state != undefined) _bodyStruct[$ "title"] = _title;
+		if (_state != undefined) _bodyStruct[$ "state"] = _state;
+		if (_description != undefined) _bodyStruct[$ "description"] = _description;
+		if (_dueOn != undefined) _bodyStruct[$ "due_on"] = _dueOn;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/milestones/{_milestoneID}", "PATCH", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func deleteMilestone(owner, repo, milestoneID)
+	/// @desc Delete a milestone from a repository.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} milestoneID The ID of the milestone.
+	/// Documentation: https://docs.github.com/en/rest/issues/milestones#delete-a-milestone
+	static deleteMilestone = function(_owner, _repo, _milestoneID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/milestones/{_milestoneID}", "DELETE", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Helper
 	
 	/// @func __createDefaultHeaders()
