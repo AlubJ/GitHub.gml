@@ -1,5 +1,30 @@
-# GitHub.gml
-A wrapper for the GitHub REST API in GameMaker.
+<h1 align="center">GitHub.gml v0.1.0</h1>
+<p align="center"><a href="https://api.github.com/en/rest">GitHub REST API</a> wrapper and implementation for GameMaker 2024.14</p>
+
+<!---------------------------------[ Buttons ]---------------------------------->
+
+<div align = center>
+
+[![Badge License]][License]   [![Badge Support]][Support]   [![Badge Docs]][Docs]   [![Badge Download]][Download]
+
+</div>
+
+<!---------------------------------------------------------------------------->
+
+[License]: LICENSE
+[Support]: https://ko-fi.com/Y8Y219SKRX
+[Docs]: https://docs.alub.dev/GitHub.gml/
+[Download]: https://github.com/GitHub.gml/releases/latest
+
+
+<!---------------------------------[ Badges ]---------------------------------->
+
+[Badge License]: https://img.shields.io/badge/License-MIT-blue
+[Badge Support]: https://img.shields.io/badge/Support%20Me-Ko--Fi-red
+[Badge Docs]: https://img.shields.io/badge/Documentation-violet
+[Badge Download]: https://img.shields.io/badge/Download-Latest-purple
+
+<!---------------------------------[ Content ]---------------------------------->
 
 # About
 This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please see below for the implemented endpoints.
