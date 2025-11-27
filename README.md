@@ -8,12 +8,12 @@ This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please 
 - [ ] Issues
     - [x] Assignees
     - [x] Comments
-    - [ ] Events
+    - [x] Events
     - [x] Issues
     - [ ] Issue dependencies
-    - [ ] Labels
-    - [ ] Milestones
-    - [ ] Sub-issues
+    - [x] Labels
+    - [x] Milestones
+    - [x] Sub-issues
     - [ ] Timeline
 - [x] Releases
     - [x] Releases

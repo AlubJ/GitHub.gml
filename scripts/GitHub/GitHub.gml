@@ -1330,6 +1330,143 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Issue Sub-issues
+	
+	/// @func getIssueParent(owner, repo, issueID)
+	/// @desc Get an issue's parent by its issueID.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The ID of the issue.
+	/// Documentation: https://docs.github.com/en/rest/issues/sub-issues#get-parent-issue
+	static getIssueParent = function(_owner, _repo, _issueID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/parent", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func removeSubIssue(owner, repo, issueID, subIssueID)
+	/// @desc Remove a sub-issue from an issue.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The ID of the issue.
+	/// @arg {Real} subIssueID The ID of the sub-issue.
+	/// Documentation: https://docs.github.com/en/rest/issues/sub-issues#remove-sub-issue
+	static removeSubIssue = function(_owner, _repo, _issueID, _subIssueID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/sub_issue", "DELETE", _header, $"\{\"sub_issue_id\":\"{_subIssueID}\"\}");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getSubIssues(owner, repo, issueID, [perPage], [page])
+	/// @desc Get an issue's parent by its issueID.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The ID of the issue.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// @arg {Real} [page] The page number of the results to fetch.
+	/// Documentation: https://docs.github.com/en/rest/issues/sub-issues#list-sub-issues
+	static getSubIssues = function(_owner, _repo, _issueID, _perPage = undefined, _page = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_perPage != undefined)		_queryParams += $"per_page={clamp(round(_perPage), 30, 100)}&";
+		if (_page != undefined)			_queryParams += $"page={clamp(round(_page), 1, 100)}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/sub_issues{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func addSubIssue(owner, repo, issueID, subIssueID, [replaceParent])
+	/// @desc Remove a sub-issue from an issue.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The ID of the issue.
+	/// @arg {Real} subIssueID The ID of the sub-issue.
+	/// @arg {Bool} [replaceParent] Instructs the operation to replace the sub-issues current parent issue.
+	/// Documentation: https://docs.github.com/en/rest/issues/sub-issues#add-sub-issue
+	static addSubIssue = function(_owner, _repo, _issueID, _subIssueID, _replaceParent = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Body struct
+		var _bodyStruct = {  };
+		
+		// Params
+		_bodyStruct[$ "sub_issue_id"] = _subIssueID;
+		if (_replaceParent != undefined) _bodyStruct[$ "replace_parent"] = _replaceParent;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/sub_issues", "POST", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func reprioritizeSubIssue(owner, repo, issueID, subIssueID, [afterID], [beforeID])
+	/// @desc Reprioritize a sub-issue.
+	/// @arg {String} owner The owner of the repo.
+	/// @arg {String} repo The repository name.
+	/// @arg {Real} issueID The ID of the issue.
+	/// @arg {Real} subIssueID The ID of the sub-issue.
+	/// @arg {Bool} [afterID] The ID of the sub-issue to be prioritized after.
+	/// @arg {Bool} [beforeID] The ID of the sub-issue to be prioritized before.
+	/// Documentation: https://docs.github.com/en/rest/issues/sub-issues#reprioritize-sub-issue
+	static reprioritizeSubIssue = function(_owner, _repo, _issueID, _subIssueID, _afterID = undefined, _beforeID = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Body struct
+		var _bodyStruct = {  };
+		
+		// Params
+		_bodyStruct[$ "sub_issue_id"] = _subIssueID;
+		if (_afterID != undefined) _bodyStruct[$ "after_id"] = _afterID;
+		if (_beforeID != undefined) _bodyStruct[$ "before_id"] = _beforeID;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/issues/{_issueID}/sub_issues/priority", "PATCH", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Helper
 	
 	/// @func __createDefaultHeaders()
