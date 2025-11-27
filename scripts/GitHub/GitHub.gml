@@ -1960,6 +1960,19 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Other
+	
+	/// @func setAuthenticationToken(authToken)
+	/// @desc Set an authentication token.
+	/// @arg {String} authToken The authentication token you want to set.
+	/// @returns {N/A}
+	static setAuthenticationToken = function(_authToken)
+	{
+		__authToken = _authToken;
+	}
+	
+	#endregion
+	
 	#region Helper
 	
 	/// @func __createDefaultHeaders()
