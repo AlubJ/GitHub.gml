@@ -32,7 +32,7 @@ This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please 
 # Implemented endpoints
 - [x] Gists
     - [x] Gists
-    - [x] comments
+    - [x] Comments
 - [ ] Issues
     - [x] Assignees
     - [x] Comments
