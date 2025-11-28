@@ -75,10 +75,10 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	/// @desc Start polling the authentication to check if the user as granted it.
 	/// @arg {String} deviceCode The device code that was returned back from `requestAuthentication`.
 	/// @arg {Real} interval The interval in seconds to poll the authentication.
-	/// @arg {Real} [maxAttempts] The maximum number of attempts to make to poll the authentication.
 	/// @arg {Real} [expireTime] The time in seconds in which the current authentication device code will expire.
+	/// @arg {Real} [maxAttempts] The maximum number of attempts to make to poll the authentication.
 	/// @returns {Any}
-	static pollAuthentication = function(_deviceCode, _interval, _maxAttempts = 10, _expireTime = 900)
+	static pollAuthentication = function(_deviceCode, _interval, _expireTime = 900, _maxAttempts = 10)
 	{
 		// Clamp the interval and max attempts
 		_interval = clamp(_interval, 5, GITHUB_GML_OAUTH_MAX_POLL_INTERVAL);
