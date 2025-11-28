@@ -25,7 +25,6 @@
     {"$GMIncludedFile":"","%Name":"clientID.key","CopyToMask":-1,"filePath":"datafiles","name":"clientID.key","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"clientSecret.key","CopyToMask":-1,"filePath":"datafiles","name":"clientSecret.key","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"LICENSE","CopyToMask":-1,"filePath":"datafiles","name":"LICENSE","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"test.zip","CopyToMask":-1,"filePath":"datafiles","name":"test.zip","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
   "isEcma":false,
   "LibraryEmitters":[],
