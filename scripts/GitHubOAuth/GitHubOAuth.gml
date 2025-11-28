@@ -12,10 +12,10 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	// Just make sure the worker exists if this function is run right as the game starts
 	__GitHubEnsureInstance();
 	
-	/// @func requestAuthenticationViaWebPage()
+	/// @func requestAuthenticationViaWebPage(scope, [expireTime])
 	/// @desc Request OAuth user authentication via a web page.
 	/// @arg {Array.String} scope An array of authentication scopes.
-	/// @arg {Real} expireTime Expiry time in seconds to allow the authentication request to expire.
+	/// @arg {Real} [expireTime] Expiry time in seconds to allow the authentication request to expire.
 	/// @returns {Any}
 	static requestAuthenticationViaWebPage = function(_scope, _expireTime = undefined)
 	{
@@ -43,7 +43,7 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		url_open($"{GITHUB_GML_ROOT_OAUTH_URL}oauth/authorize?client_id={__GitHubSystem().__clientID}&scope={__constructScopeString(_scope)}");
 	}
 	
-	/// @func requestAuthentication()
+	/// @func requestAuthentication(scope)
 	/// @desc Request OAuth user authentication via the device flow.
 	/// @arg {Array.String} scope An array of authentication scopes.
 	/// @returns {Struct.GitHubRequest}
@@ -133,7 +133,7 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		return (__GitHubSystem().__pollTimesource != undefined || __github_worker.__server != undefined);
 	}
 	
-	/// @func setAuthenticationCallback()
+	/// @func setAuthenticationCallback(callback)
 	/// @desc Set the authentication callback which will be executed when the authentication is successful.
 	/// @arg {Function} callback The method to execute.
 	/// @returns {Any}
@@ -142,7 +142,7 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		__GitHubSystem().__authenticationCallback = _callback;
 	}
 	
-	/// @func setAuthenticationErrorback()
+	/// @func setAuthenticationErrorback(callback)
 	/// @desc Set the authentication errorback which will be executed when the authentication is unsuccessful.
 	/// @arg {Function} callback The method to execute.
 	/// @returns {Any}
@@ -151,7 +151,7 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		__GitHubSystem().__authenticationErrorback = _callback;
 	}
 	
-	/// @func setAuthenticationTimeoutCallback()
+	/// @func setAuthenticationTimeoutCallback(callback)
 	/// @desc Set the authentication callback which will be executed when the authentication times out.
 	/// @arg {Function} callback The method to execute.
 	/// @returns {Any}

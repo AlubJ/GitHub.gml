@@ -2055,17 +2055,4 @@ function GitHub(_authToken = undefined) constructor
 	}
 	
 	#endregion
-	
-	#region Other
-	
-	/// @func destroy()
-	/// @desc Destroy the GitHub controller and clean up memory.
-	static destroy = function()
-	{
-		// Stop and destroy the timesource.
-		time_source_stop(__timesource);
-		time_source_destroy(__timesource);
-	}
-	
-	#endregion
 }

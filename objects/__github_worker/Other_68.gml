@@ -65,8 +65,7 @@ if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 					// Request server shutdown
 					__GitHubRequestServerShutdown();
 					
-					
-					// Run the poll callback
+					// Run the authentication callback
 					if (_system.__authenticationCallback != undefined)
 					{
 						_system.__authenticationCallback(_resultBody, _request);
