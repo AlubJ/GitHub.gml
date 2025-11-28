@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__StructToDSMap",
   "parent":{
-    "name":"Supplementary Scripts",
-    "path":"folders/GitHub.GML/(System)/Supplementary Scripts.yy",
+    "name":"(2) Supplementary Scripts",
+    "path":"folders/GitHub.GML/(System)/(2) Supplementary Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

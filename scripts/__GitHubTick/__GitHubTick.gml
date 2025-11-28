@@ -7,4 +7,8 @@ function __GitHubTick()
 	{
 		__GitHubSystem().__authenticationExpireTime--;
 	}
+	else if (__GitHubSystem().__authenticationExpireTime <= 0 && __github_worker.__server != undefined)
+	{
+		// Request server shutdown here please
+	}
 }

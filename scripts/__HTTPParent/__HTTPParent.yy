@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__HTTPParent",
   "parent":{
-    "name":"(System)",
-    "path":"folders/GitHub.GML/(System).yy",
+    "name":"(2) Supplementary Scripts",
+    "path":"folders/GitHub.GML/(System)/(2) Supplementary Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

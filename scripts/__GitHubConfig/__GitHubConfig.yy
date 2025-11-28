@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__GitHubConfig",
   "parent":{
-    "name":"GitHub.GML",
-    "path":"folders/GitHub.GML.yy",
+    "name":"(Config)",
+    "path":"folders/GitHub.GML/(Config).yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

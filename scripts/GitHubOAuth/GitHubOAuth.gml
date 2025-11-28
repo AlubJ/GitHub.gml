@@ -15,8 +15,9 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	/// @func requestAuthenticationViaWebPage()
 	/// @desc Request OAuth user authentication via a web page.
 	/// @arg {Array.String} scope An array of authentication scopes.
+	/// @arg {Real} expireTime Expiry time in seconds to allow the authentication request to expire.
 	/// @returns {Any}
-	static requestAuthenticationViaWebPage = function(_scope)
+	static requestAuthenticationViaWebPage = function(_scope, _expireTime = undefined)
 	{
 		// Ensure server does not exist
 		if (__github_worker.__server != undefined || __GitHubSystem().__pollTimesource != undefined)
@@ -34,6 +35,9 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		
 		// Create the server
 		__github_worker.__server = network_create_server_raw(network_socket_tcp, GITHUB_GML_LOCALHOST_PORT, 1);
+		
+		// Set the expire time
+		__GitHubSystem().__authenticationExpireTime = _expireTime;
 		
 		// Open the URL
 		url_open($"{GITHUB_GML_ROOT_OAUTH_URL}oauth/authorize?client_id={__GitHubSystem().__clientID}&scope={__constructScopeString(_scope)}");
@@ -106,12 +110,7 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	static cancelAuthentication = function()
 	{
 		// Check server for an active web-flow authentication
-		if (__github_worker.__server != undefined)
-		{
-			// Destroy the network
-			network_destroy(__github_worker.__server);
-			__github_worker.__server = undefined;
-		}
+		__GitHubRequestServerShutdown();
 		
 		// Check the timesource for an active device-flow authentication
 		if (__GitHubSystem().__pollTimesource != undefined)

@@ -46,6 +46,14 @@ if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 				var _githubRequest = new GitHubRequest(_request.requestID);
 				_githubRequest.setCallback(function(_resultBody, _request)
 				{
+					// We can reasonably assume that if the server is in the process of shutting down that we have
+					// the authentication we need or it failed or got cancelled by the user. If this is the case we
+					// can just skip past all of this.
+					if (__GitHubServerShuttingDown())
+					{
+						return;
+					}
+					
 					// Get system
 					var _system = __GitHubSystem();
 					
@@ -54,9 +62,9 @@ if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 					_system.__currentUserTokenType = _resultBody.token_type;
 					_system.__currentUserTokenScope = string_split(_resultBody.scope, ",");
 					
-					// Destroy the network
-					network_destroy(__server);
-					__server = undefined;
+					// Request server shutdown
+					__GitHubRequestServerShutdown();
+					
 					
 					// Run the poll callback
 					if (_system.__authenticationCallback != undefined)

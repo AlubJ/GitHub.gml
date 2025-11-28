@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"__GitHubSystem",
+  "%Name":"__GitHubServerShutdown",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"__GitHubSystem",
+  "name":"__GitHubServerShutdown",
   "parent":{
     "name":"(0) Core",
     "path":"folders/GitHub.GML/(System)/(0) Core.yy",

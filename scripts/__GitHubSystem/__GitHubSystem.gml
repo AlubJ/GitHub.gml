@@ -44,19 +44,28 @@ function __GitHubSystem()
 		// Web-flow
 		__authenticationSuccessHTML = "Please return to the game.";
 		__authenticationErrorHTML = "Error!";
+		__authenticationServerShutdownTimesource = undefined;
 		
 		// Create worker
 		__GitHubEnsureInstance();
 		
 		// Create early destruction detection timesource, essentially a "keep alive" to make sure the worker exists at all times when GitHub exists
-		time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, function() {
+		time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, function()
+		{
 			__GitHubEnsureInstance();
 		}, [], -1));
 		
 		// Now we run the seconds tick
-		time_source_start(time_source_create(time_source_global, 1, time_source_units_seconds, function() {
+		time_source_start(time_source_create(time_source_global, 1, time_source_units_seconds, function()
+		{
 			__GitHubTick();
 		}, [], -1));
+		
+		// Authentication server shutdown server
+		__GitHubSystem().__authenticationServerShutdownTimesource = time_source_create(time_source_global, GITHUB_GML_SERVER_SHUTDOWN_TIME, time_source_units_seconds, function ()
+		{
+			__GitHubServerShutdown();
+		});
 	}
 	
 	return _system;

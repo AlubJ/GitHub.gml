@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__GitHubWarn",
   "parent":{
-    "name":"(System)",
-    "path":"folders/GitHub.GML/(System).yy",
+    "name":"(1) Debugging",
+    "path":"folders/GitHub.GML/(System)/(1) Debugging.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

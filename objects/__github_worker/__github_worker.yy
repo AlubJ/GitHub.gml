@@ -10,8 +10,8 @@
   "name":"__github_worker",
   "overriddenProperties":[],
   "parent":{
-    "name":"(System)",
-    "path":"folders/GitHub.GML/(System).yy",
+    "name":"(0) Core",
+    "path":"folders/GitHub.GML/(System)/(0) Core.yy",
   },
   "parentObjectId":null,
   "persistent":true,
