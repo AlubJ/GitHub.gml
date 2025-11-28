@@ -1953,6 +1953,8 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region USERS
+	
 	#region Attestations
 	
 	/// @func getAttestationsBySubjectDigests(username, subjectDigests, [predicateType], [perPage], [before], [after])
@@ -2207,6 +2209,8 @@ function GitHub(_authToken = undefined) constructor
 		// Return Request
 		return _githubRequest;
 	}
+	
+	#endregion
 	
 	#endregion
 	
