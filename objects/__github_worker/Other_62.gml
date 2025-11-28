@@ -45,17 +45,18 @@ if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 	else if (async_load[? "status"] == 0)
 	{
 		// Recieved All Packets
-		// Set HTTP Status
+		// Set HTTP and response headers
 		_requestObject.httpStatus = async_load[? "http_status"];
+		_requestObject.responseHeaders = __DSMapToStruct(async_load[? "response_headers"]);
 		
-		// Get GitHub Request and Set Its HTTP Status
-		if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
+		// Now we need to run the callbacks
+		if (async_load[? "http_status"] >= 200 && async_load[? "http_status"] <= 299)
 		{
-			// Get GitHub Request Object
-			var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
-			
-			// Set Status
-			_ghRequestObject.httpStatus = async_load[? "http_status"];
+			if (is_method(_requestObject.callback)) _requestObject.callback(_requestObject.result, _requestObject);
+		}
+		else if (async_load[? "http_status"] >= 400 && async_load[? "http_status"] <= 599)
+		{
+			if (is_method(_requestObject.errorback)) _requestObject.errorback(_requestObject.result, _requestObject);
 		}
 		
 		// Get Result
@@ -70,6 +71,10 @@ if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 		// Get GitHub Request
 		if (variable_struct_exists(_system.__activeGitHubRequests, _requestID))
 		{
+			// Set Status
+			_ghRequestObject.httpStatus = async_load[? "http_status"];
+			_ghRequestObject.responseHeaders = __DSMapToStruct(async_load[? "response_headers"]);
+			
 			// Get GitHub Request Object
 			var _ghRequestObject = _system.__activeGitHubRequests[$ _requestID];
 			

@@ -6,7 +6,7 @@
   "name":"__GMColorToHexString",
   "parent":{
     "name":"Supplementary Scripts",
-    "path":"folders/GitHub.GML/Supplementary Scripts.yy",
+    "path":"folders/GitHub.GML/(System)/Supplementary Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

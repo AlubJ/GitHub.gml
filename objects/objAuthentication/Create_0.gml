@@ -33,6 +33,7 @@ global.oauth.setAuthenticationCallback(function(_resultBody, _request) {
 	var _ghRequest = global.github.getAuthenticatedUser()
 	.setCallback(function (_resultBody, _request)
 	{
+		show_debug_message(json_stringify(_request.responseHeaders, true));
 		global.authenticatedUser = _resultBody[$ "login"];
 	});
 });

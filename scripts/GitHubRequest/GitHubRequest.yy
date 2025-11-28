@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"GitHubRequest",
   "parent":{
-    "name":"Supplementary Scripts",
-    "path":"folders/GitHub.GML/Supplementary Scripts.yy",
+    "name":"GitHub Constructors",
+    "path":"folders/GitHub.GML/GitHub Constructors.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

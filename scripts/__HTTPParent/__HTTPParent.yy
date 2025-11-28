@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__HTTPParent",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__HTTPParent",
+  "parent":{
+    "name":"(System)",
+    "path":"folders/GitHub.GML/(System).yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

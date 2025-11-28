@@ -1,23 +1,27 @@
 // Feather disable all
 
-/// @func GitHubRequest(requestID)
-/// @desc Constructor for a GitHub specific request, when valid data is returned back, it will be parsed into the structure.
-/// @arg {Real} requestID The ID for the request that has been sent.
-function GitHubRequest(_requestID) constructor
+/// @func __HTTPParent()
+/// @desc Parent constructor for HTTP stuff
+/// @ignore
+function __HTTPParent() constructor
 {
 	// Variables
-	requestID = _requestID;
+	requestID = undefined;
 	status = undefined;
-	httpStatus = undefined;
-	responseHeaders = undefined;
-	contentLength = 0;
-	sizeDownloaded = 0;
 	result = "null";
+	requestURL = undefined;
+	httpStatus = undefined;
+	headerMap = undefined;
+	requestBody = undefined;
+	requestMethod = undefined;
+	responseHeaders = undefined;
+	localTarget = undefined;
+	contentLength = undefined;
+	sizeDownloaded = undefined;
+	
+	// Callbacks
 	callback = undefined;
 	errorback = undefined;
-	
-	// Push Request To Active Requests
-	__GitHubSystem().__activeGitHubRequests[$ requestID] = self;
 	
 	// Methods
 	/// @func parseResult(result)
