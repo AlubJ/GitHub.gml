@@ -38,6 +38,7 @@
   "resources":[
     {"id":{"name":"__github_worker","path":"objects/__github_worker/__github_worker.yy",},},
     {"id":{"name":"objAuthentication","path":"objects/objAuthentication/objAuthentication.yy",},},
+    {"id":{"name":"objTesting","path":"objects/objTesting/objTesting.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"__DSMapToStruct","path":"scripts/__DSMapToStruct/__DSMapToStruct.yy",},},
     {"id":{"name":"__GitHubConfig","path":"scripts/__GitHubConfig/__GitHubConfig.yy",},},
