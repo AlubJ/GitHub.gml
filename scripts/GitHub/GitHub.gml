@@ -1973,6 +1973,131 @@ function GitHub(_authToken = undefined) constructor
 		return _githubRequest;
 	}
 	
+	/// @func updateAuthenticatedUser([name], [email], [blog], [twitterUsername], [company], [location], [hireable], [bio])
+	/// @desc Update the currently authenticated user.
+	/// @arg {String} [user] The new name of the user.
+	/// @arg {String} [email] The new email of the user.
+	/// @arg {String} [blog] The new blog URL of the user.
+	/// @arg {String} [twitterUsername] The new twitter (X) username of the user.
+	/// @arg {String} [company] The new company of the user.
+	/// @arg {String} [location] The new location of the user.
+	/// @arg {Bool} [hireable] The new hiring availability of the user.
+	/// @arg {String} [bio] The new bio of the user.
+	/// Documentation: https://docs.github.com/en/rest/users/users#update-the-authenticated-user
+	static updateAuthenticatedUser = function(_name = undefined, _email = undefined, _blog = undefined, _twitter = undefined, _company = undefined, _location = undefined, _hireable = undefined, _bio = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create body struct
+		var _bodyStruct = {  };
+		
+		// Color and description
+		if (_name != undefined) _bodyStruct[$ "name"] = _name;
+		if (_email != undefined) _bodyStruct[$ "email"] = _email;
+		if (_blog != undefined) _bodyStruct[$ "blog"] = _blog;
+		if (_twitter != undefined) _bodyStruct[$ "twitter_username"] = _twitter;
+		if (_company != undefined) _bodyStruct[$ "company"] = _company;
+		if (_location != undefined) _bodyStruct[$ "location"] = _location;
+		if (_hireable != undefined) _bodyStruct[$ "hireable"] = _hireable;
+		if (_bio != undefined) _bodyStruct[$ "bio"] = _bio;
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}user", "PATCH", _header, json_stringify(_bodyStruct));
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getUserByID(accountID)
+	/// @desc Get a user by their account ID.
+	/// @arg {Real} accountID The users account ID.
+	/// Documentation: https://docs.github.com/en/rest/users/users#get-a-user-using-their-id
+	static getUserByID = function(_accountID)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}user/{_accountID}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getUsers([since], [perPage])
+	/// @desc Get a list of users.
+	/// @arg {Real} [since] A user ID. Only return users with an ID greater than this ID.
+	/// @arg {Real} [perPage] The number of results per page (max 100).
+	/// Documentation: https://docs.github.com/en/rest/users/users#list-users
+	static getUsers = function(_since = undefined, _perPage = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_since != undefined)		_queryParams += $"since={_since}&";
+		if (_perPage != undefined)		_queryParams += $"per_page={_perPage}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}users{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getUser(username)
+	/// @desc Get a user by their username.
+	/// @arg {String} username The users username.
+	/// Documentation: https://docs.github.com/en/rest/users/users#get-a-user
+	static getUser = function(_username)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}users/{_username}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func getUserHovercard(username, [subjectType], [subjectID])
+	/// @desc Get a user by their username.
+	/// @arg {String} username The users username.
+	/// @arg {String} [subjectType] Identifies which additional information you'd like to receive about the person's hovercard. Can be "organization", "repository", "issue", "pull_request". Required when using subjectID.
+	/// @arg {String} [subjectID] Uses the ID for the subjectType you specified. Required when using subjectType.
+	/// Documentation: https://docs.github.com/en/rest/users/users#get-contextual-information-for-a-user
+	static getUserHovercard = function(_username, _subjectType = undefined, _subjectID = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		var _queryParams = "?";
+		if (_subjectType != undefined && _subjectID != undefined) _queryParams += $"subject_type={_subjectType}&subject_id={_subjectID}";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}users/{_username}{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
 	#endregion
 	
 	#region Other
