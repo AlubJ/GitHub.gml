@@ -52,6 +52,9 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 			return;
 		}
 		
+		// Set max attempts
+		__GitHubSystem().__authenticationAttempts = 0;
+		
 		// Create Header
 		var _header = __createDefaultHeaders();
 		
@@ -142,6 +145,15 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		__GitHubSystem().__authenticationErrorback = _callback;
 	}
 	
+	/// @func setAuthenticationTimeoutCallback()
+	/// @desc Set the authentication callback which will be executed when the authentication times out.
+	/// @arg {Function} callback The method to execute.
+	/// @returns {Any}
+	static setAuthenticationTimeoutCallback = function(_callback)
+	{
+		__GitHubSystem().__authenticationTimeoutCallback = _callback;
+	}
+	
 	/// @func hasAuthentication()
 	/// @desc Returns wether we have user authentication or not.
 	/// @returns {Bool}
@@ -199,6 +211,23 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	/// @ignore
 	static __pollAuthentication = function()
 	{
+		// Check if we have hit out max attempts or not
+		if (__GitHubSystem().__authenticationAttempts >= GITHUB_GML_OAUTH_MAX_POLLS)
+		{
+			// And we call the timeout callback
+			if (__GitHubSystem().__authenticationTimeoutCallback != undefined)
+			{
+				__GitHubSystem().__authenticationTimeoutCallback();
+				
+				// Clear timesources
+				time_source_stop(_system.__pollTimesource);
+				time_source_destroy(_system.__pollTimesource);
+				_system.__pollTimesource = undefined;
+				
+				return;
+			}
+		}
+		
 		// Create Header
 		var _header = ds_map_create();
 		
@@ -262,6 +291,9 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 				_system.__authenticationErrorback(_resultBody, _request);
 			}
 		});
+		
+		// Increment authentication attempts
+		__GitHubSystem().__authenticationAttempts++;
 	}
 	
 	/// @func __constructScopeString(scope)

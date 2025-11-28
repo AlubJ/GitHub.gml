@@ -30,8 +30,10 @@ function __GitHubSystem()
 		__clientID = undefined;
 		__clientSecret = undefined;
 		__deviceCode = undefined;
+		__authenticationAttempts = undefined;
 		__authenticationCallback = undefined;
 		__authenticationErrorback = undefined;
+		__authenticationTimeoutCallback = undefined;
 		__pollTimesource = undefined;
 		
 		// Web-flow
