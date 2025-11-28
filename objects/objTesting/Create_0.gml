@@ -6,7 +6,7 @@ buffer_delete(_buffer);
 // GitHub
 github = new GitHub(_key);
 
-github.getUserHovercard("AlubJ")
+github.getUserHovercard("AlubJ", "repository", "GitHub.gml")
 .setCallback(function (_resultBody, _request)
 {
 	show_debug_message(json_stringify(_resultBody, true));

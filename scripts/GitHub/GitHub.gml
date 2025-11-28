@@ -2076,7 +2076,7 @@ function GitHub(_authToken = undefined) constructor
 	}
 	
 	/// @func getUserHovercard(username, [subjectType], [subjectID])
-	/// @desc Get a user by their username.
+	/// @desc Get contextual information about a user.
 	/// @arg {String} username The users username.
 	/// @arg {String} [subjectType] Identifies which additional information you'd like to receive about the person's hovercard. Can be "organization", "repository", "issue", "pull_request". Required when using subjectID.
 	/// @arg {String} [subjectID] Uses the ID for the subjectType you specified. Required when using subjectType.
