@@ -1986,6 +1986,38 @@ function GitHub(_authToken = undefined) constructor
 		__authToken = _authToken;
 	}
 	
+	/// @func getRateLimitLimit()
+	/// @desc Get the current rate limit for the authenticated user, returns undefined when no requests have been made.
+	/// @returns {Real}
+	static getRateLimitLimit = function()
+	{
+		return __GitHubSystem().__rateLimit;
+	}
+	
+	/// @func getRateLimitUsed()
+	/// @desc Get the current used rate limit for the authenticated user, returns undefined when no requests have been made.
+	/// @returns {Real}
+	static getRateLimitUsed = function()
+	{
+		return __GitHubSystem().__rateLimitUsed;
+	}
+	
+	/// @func getRateLimitRemaining()
+	/// @desc Get the current remaining rate limit for the authenticated user, returns undefined when no requests have been made.
+	/// @returns {Real}
+	static getRateLimitRemaining = function()
+	{
+		return __GitHubSystem().__rateLimitRemaining;
+	}
+	
+	/// @func getRateLimitReset()
+	/// @desc Get the current rate limit reset for the authenticated user, returns undefined when no requests have been made.
+	/// @returns {Datetime}
+	static getRateLimitReset = function()
+	{
+		return date_create_datetime(1970, 1, 1, 0, 0, __GitHubSystem().__rateLimitReset);
+	}
+	
 	#endregion
 	
 	#region Helper

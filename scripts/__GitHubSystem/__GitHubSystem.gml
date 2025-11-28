@@ -15,6 +15,12 @@ function __GitHubSystem()
 		__activeRequests = {  };
 		__activeGitHubRequests = {  };
 		
+		// Rate limits
+		__rateLimit = undefined;
+		__rateLimitUsed = undefined;
+		__rateLimitRemaining = undefined;
+		__rateLimitReset = undefined;
+		
 		// Current user authorization token
 		__currentUserAuthToken = undefined;
 		__currentUserTokenType = undefined;

@@ -91,6 +91,16 @@ if (variable_struct_exists(_system.__activeRequests, async_load[? "id"]))
 				if (is_method(_ghRequestObject.errorback)) _ghRequestObject.errorback(_ghRequestObject.result, _ghRequestObject);
 			}
 			
+			// Do rate limit stuff
+			if (variable_struct_exists(_ghRequestObject.responseHeaders, "X-RateLimit-Reset"))
+			{
+				// Keep track of rate limits
+				_system.__rateLimit				= _ghRequestObject.responseHeaders[$ "X-RateLimit-Limit"];
+				_system.__rateLimitUsed			= _ghRequestObject.responseHeaders[$ "X-RateLimit-Used"];
+				_system.__rateLimitRemaining	= _ghRequestObject.responseHeaders[$ "X-RateLimit-Remaining"];
+				_system.__rateLimitReset		= _ghRequestObject.responseHeaders[$ "X-RateLimit-Reset"];
+			}
+			
 			// Delete From Active GitHub Requests
 			variable_struct_remove(_system.__activeGitHubRequests, _requestID);
 		}

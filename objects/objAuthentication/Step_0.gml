@@ -52,6 +52,16 @@ else if (global.authenticationState == 1)
 }
 else if (global.authenticationState == 2)
 {
+	if (keyboard_check_pressed(vk_space))
+	{
+		show_debug_message(global.github.getRateLimitLimit());
+		show_debug_message(global.github.getRateLimitRemaining());
+		show_debug_message(global.github.getRateLimitUsed());
+		show_debug_message(date_datetime_string(global.github.getRateLimitReset()));
+	}
+}
+else if (global.authenticationState == 3)
+{
 	if (global.authenticationMode == 0)
 	{
 		if (keyboard_check_pressed(vk_f1))
