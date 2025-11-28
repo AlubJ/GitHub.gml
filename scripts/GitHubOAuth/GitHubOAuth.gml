@@ -76,8 +76,9 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	/// @arg {String} deviceCode The device code that was returned back from `requestAuthentication`.
 	/// @arg {Real} interval The interval in seconds to poll the authentication.
 	/// @arg {Real} [maxAttempts] The maximum number of attempts to make to poll the authentication.
+	/// @arg {Real} [expireTime] The time in seconds in which the current authentication device code will expire.
 	/// @returns {Any}
-	static pollAuthentication = function(_deviceCode, _interval, _maxAttempts = 10)
+	static pollAuthentication = function(_deviceCode, _interval, _maxAttempts = 10, _expireTime = 900)
 	{
 		// Clamp the interval and max attempts
 		_interval = clamp(_interval, 5, GITHUB_GML_OAUTH_MAX_POLL_INTERVAL);
@@ -89,8 +90,11 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		// Save device code
 		_system.__deviceCode = _deviceCode;
 		
+		// Set the expiry time
+		_system.__authenticationExpireTime = _expireTime;
+		
 		// Create the time source
-		_system.__pollTimesource = time_source_create(time_source_global, _interval, time_source_units_seconds, __pollAuthentication, [], _maxAttempts, time_source_expire_after);;
+		_system.__pollTimesource = time_source_create(time_source_global, _interval, time_source_units_seconds, __pollAuthentication, [], _maxAttempts, time_source_expire_after);
 		
 		// Start the timesource
 		time_source_start(_system.__pollTimesource);
@@ -112,10 +116,13 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 		// Check the timesource for an active device-flow authentication
 		if (__GitHubSystem().__pollTimesource != undefined)
 		{
+			// Reset expire time
+			__GitHubSystem().__authenticationExpireTime = undefined;
+			
 			// Clear timesources
-			time_source_stop(_system.__pollTimesource);
-			time_source_destroy(_system.__pollTimesource);
-			_system.__pollTimesource = undefined;
+			time_source_stop(__GitHubSystem().__pollTimesource);
+			time_source_destroy(__GitHubSystem().__pollTimesource);
+			__GitHubSystem().__pollTimesource = undefined;
 		}
 	}
 	
@@ -212,12 +219,16 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	static __pollAuthentication = function()
 	{
 		// Check if we have hit out max attempts or not
-		if (__GitHubSystem().__authenticationAttempts >= GITHUB_GML_OAUTH_MAX_POLLS)
+		// TODO: Do something about the timeout time that GitHub returns back
+		if (__GitHubSystem().__authenticationAttempts >= GITHUB_GML_OAUTH_MAX_POLLS || (__GitHubSystem().__authenticationExpireTime != undefined && __GitHubSystem().__authenticationExpireTime <= 0))
 		{
 			// And we call the timeout callback
 			if (__GitHubSystem().__authenticationTimeoutCallback != undefined)
 			{
 				__GitHubSystem().__authenticationTimeoutCallback();
+				
+				// Reset expire time
+				__GitHubSystem().__authenticationExpireTime = undefined;
 				
 				// Clear timesources
 				time_source_stop(_system.__pollTimesource);

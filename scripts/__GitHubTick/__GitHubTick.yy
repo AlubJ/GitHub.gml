@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__GitHubTick",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__GitHubTick",
+  "parent":{
+    "name":"(System)",
+    "path":"folders/GitHub.GML/(System).yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

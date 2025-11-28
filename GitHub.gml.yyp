@@ -42,6 +42,7 @@
     {"id":{"name":"__GitHubEnsureInstance","path":"scripts/__GitHubEnsureInstance/__GitHubEnsureInstance.yy",},},
     {"id":{"name":"__GitHubError","path":"scripts/__GitHubError/__GitHubError.yy",},},
     {"id":{"name":"__GitHubSystem","path":"scripts/__GitHubSystem/__GitHubSystem.yy",},},
+    {"id":{"name":"__GitHubTick","path":"scripts/__GitHubTick/__GitHubTick.yy",},},
     {"id":{"name":"__GitHubTrace","path":"scripts/__GitHubTrace/__GitHubTrace.yy",},},
     {"id":{"name":"__GitHubWarn","path":"scripts/__GitHubWarn/__GitHubWarn.yy",},},
     {"id":{"name":"__GMColorToHexString","path":"scripts/__GMColorToHexString/__GMColorToHexString.yy",},},
