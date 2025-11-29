@@ -56,6 +56,7 @@
     {"id":{"name":"__HTTPParent","path":"scripts/__HTTPParent/__HTTPParent.yy",},},
     {"id":{"name":"__StructToDSMap","path":"scripts/__StructToDSMap/__StructToDSMap.yy",},},
     {"id":{"name":"GitHub","path":"scripts/GitHub/GitHub.yy",},},
+    {"id":{"name":"GitHubContent","path":"scripts/GitHubContent/GitHubContent.yy",},},
     {"id":{"name":"GitHubGist","path":"scripts/GitHubGist/GitHubGist.yy",},},
     {"id":{"name":"GitHubIssue","path":"scripts/GitHubIssue/GitHubIssue.yy",},},
     {"id":{"name":"GitHubOAuth","path":"scripts/GitHubOAuth/GitHubOAuth.yy",},},

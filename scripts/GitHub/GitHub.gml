@@ -2214,6 +2214,58 @@ function GitHub(_authToken = undefined) constructor
 	
 	#endregion
 	
+	#region Repository Contents
+	
+	/// @func getRepositoryContent(owner, repo, path, [ref])
+	/// @desc Get a repository content.
+	/// @arg {String} owner The account owner of the repository.
+	/// @arg {String} repo The name of the repository without the .git extension.
+	/// @arg {String} path Path parameter.
+	/// @arg {String} [ref] The name of the commit/branch/tag. Default: the repository’s default branch.
+	/// Documentation: https://docs.github.com/en/rest/repos/contents#get-repository-content
+	static getRepositoryContent = function(_owner, _repo, _path, _ref = undefined)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Optional Query Params
+		var _queryParams = "?";
+		if (_ref != undefined)		_queryParams += $"ref={_ref}&";
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/contents/{_path}{_queryParams}", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	/// @func createRepositoryContent(owner, repo, path, content)
+	/// @desc Create or update repository content.
+	/// @arg {String} owner The account owner of the repository.
+	/// @arg {String} repo The name of the repository without the .git extension.
+	/// @arg {String} path Path parameter.
+	/// @arg {Struct.GitHubContent} content The content struct to upload.
+	/// Documentation: https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents
+	static createRepositoryContent = function(_owner, _repo, _path, _content)
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}repos/{_owner}/{_repo}/contents/{_path}", "PUT", _header, _content.generateJSON());
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
+	#endregion
+	
 	#region Other
 	
 	/// @func setAuthenticationToken(authToken)
