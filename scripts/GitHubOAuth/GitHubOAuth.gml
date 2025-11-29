@@ -19,6 +19,12 @@ function GitHubOAuth(_clientID, _clientSecret = undefined) constructor
 	/// @returns {Any}
 	static requestAuthenticationViaWebPage = function(_scope, _expireTime = undefined)
 	{
+		// Ensure that we are on a desktop platform
+		if (!GITHUB_GML_FOR_DESKTOP)
+		{
+			__GitHubError("requestAuthenticationViaWebPage: Web-flow authentication is only supported on desktop platforms, please use device-flow for non-desktop platforms");
+		}
+		
 		// Ensure server does not exist
 		if (__github_worker.__server != undefined || __GitHubSystem().__pollTimesource != undefined)
 		{
