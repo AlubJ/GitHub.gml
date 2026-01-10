@@ -2264,6 +2264,21 @@ function GitHub(_authToken = undefined) constructor
 		return _githubRequest;
 	}
 	
+	static getRepositoriesOwnedByMe = function()
+	{
+		// Create Default Headers
+		var _header = __createDefaultHeaders();
+		
+		// Create Request
+		var _request = new HTTPRequest($"{GITHUB_GML_ROOT_URL}user/repos", "GET", _header, "");
+		
+		// Create GitHub Request
+		var _githubRequest = new GitHubRequest(_request.requestID);
+		
+		// Return Request
+		return _githubRequest;
+	}
+	
 	#endregion
 	
 	#region Other

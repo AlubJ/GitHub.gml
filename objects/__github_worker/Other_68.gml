@@ -79,10 +79,12 @@ if (__server != undefined && async_load[? "port"] == GITHUB_GML_LOCALHOST_PORT)
 			{
 				var _status  = "403 Forbidden";
 				var _content = __GitHubSystem().__authenticationErrorHTML;
+				
+				// TODO: Add errorbacking in here
 			}
 			
 			//Send a response back to the browser
-			var _buffer = buffer_create(1024, buffer_grow, 1);
+			var _buffer = buffer_create(GITHUB_GML_BROWSER_RESPONSE_BUFFER_SIZE, buffer_grow, 1);
 			buffer_write(_buffer, buffer_text, $"HTTP/1.1 {_status}\nContent-Length: {string_length(_content)}\nContent-Type: text/html\n\n{_content}");
 			network_send_raw(__socket, _buffer, buffer_tell(_buffer));
 			buffer_delete(_buffer);

@@ -23,6 +23,8 @@ global.authenticationErrorMessage = undefined;
 
 global.authenticatedUser = undefined;
 
+global.test = "";
+
 // Create OAuth
 global.oauth = new GitHubOAuth(_clientID, _clientSecret);
 
@@ -35,6 +37,16 @@ global.oauth.setAuthenticationCallback(function(_resultBody, _request) {
 	{
 		global.authenticatedUser = _resultBody[$ "login"];
 	});
+	var _ghRequest = global.github.getRepositoriesOwnedByMe()
+	.setCallback(function (_resultBody, _request)
+	{
+		global.test = json_stringify(_resultBody, true);
+		show_debug_message(json_stringify(_resultBody, true));
+	})
+	.setErrorback(function (_resultBody, _request)
+	{
+		show_debug_message(json_stringify(_resultBody, true));
+	})
 });
 
 // Create authentication errorback

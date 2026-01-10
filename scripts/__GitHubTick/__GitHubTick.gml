@@ -9,6 +9,8 @@ function __GitHubTick()
 	}
 	else if (__GitHubSystem().__authenticationExpireTime <= 0 && __github_worker.__server != undefined)
 	{
-		// Request server shutdown here please
+		// TODO: Figure out what to do for the timeout callback
+		__GitHubSystem().__authenticationTimeoutCallback();
+		__GitHubRequestServerShutdown();
 	}
 }

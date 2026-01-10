@@ -15,7 +15,7 @@ else if (global.authenticationState == 1)
 }
 else if (global.authenticationState == 2)
 {
-	draw_text(12, 12, $"Successfully authenticated!\n   Welcome {global.authenticatedUser}");
+	draw_text(12, 12, $"Successfully authenticated!\n   Welcome {global.authenticatedUser}\n   {global.test}");
 }
 else if (global.authenticationState == 3)
 {
