@@ -1,4 +1,4 @@
-<h1 align="center">GitHub.gml v0.2.0</h1>
+<h1 align="center">GitHub.gml v0.3.0</h1>
 <p align="center"><a href="https://api.github.com/en/rest">GitHub REST API</a> wrapper and implementation for GameMaker 2024.14</p>
 
 <!---------------------------------[ Buttons ]---------------------------------->
@@ -92,3 +92,4 @@ This is a work-in-progress wrapper for the GitHub REST API in GameMaker. Please 
 - [ ] Security advisories
 - [ ] Teams
 - [ ] Users
+
